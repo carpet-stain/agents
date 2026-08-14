@@ -9,8 +9,7 @@ description: >-
   anything. Use when asked to audit, review, or check agent/backlog-manager memory for stale
   pointers, restated issue status, orphaned entities, entities that have outgrown one topic, or
   memory content that should live in repo docs instead. The detection backstop to the write-time
-  contract in carpet-stain/dotfiles's `claude/agents/backlog-manager.md`. Read-only — never invoke
-  it to apply a fix.
+  contract in `agents/backlog-manager.md`. Read-only — never invoke it to apply a fix.
 allowed-tools: Read, Glob, Grep, Bash(gh issue view:*), Bash(gh issue list:*), Bash(gh search issues:*), Bash(gh label list:*), Bash(jq:*)
 disallowed-tools: Write, Edit
 ---
@@ -18,10 +17,10 @@ disallowed-tools: Write, Edit
 # Audit Memory
 
 Read-only audit of backlog-manager's knowledge-graph memory — the detection half of keeping that
-memory honest, paired with the write-time pointer-layer contract in carpet-stain/dotfiles's
-`claude/agents/backlog-manager.md` (prevention; carpet-stain/dotfiles ADR-0036 owns the model).
-Sibling to `audit-rules`: same propose-don't-apply contract, same report shape, a different
-target. Report findings and proposed fixes — never edit anything.
+memory honest, paired with the write-time pointer-layer contract in `agents/backlog-manager.md`
+(prevention; carpet-stain/dotfiles ADR-0036 owns the model). Sibling to `audit-rules`: same
+propose-don't-apply contract, same report shape, a different target. Report findings and
+proposed fixes — never edit anything.
 
 **The auditor is not the author.** This runs as its own skill precisely so the actor that writes
 memory doesn't grade its own work — a deliberate independent read, the same reason `audit-rules`
