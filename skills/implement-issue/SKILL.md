@@ -32,7 +32,7 @@ opening PRs live in the repo's own git workflow doc — this skill doesn't resta
 4. **Author as the implementor.** Every `git commit` in this ritual (including the squash) runs
    with `GIT_AUTHOR_NAME=carpet-stain-implementor` and
    `GIT_AUTHOR_EMAIL=316583991+carpet-stain-implementor@users.noreply.github.com` — honest blame
-   (ADR-0038 in the dotfiles repo). Author only: committer, push, and merge stay the human's;
+   (carpet-stain/dotfiles ADR-0038). Author only: committer, push, and merge stay the human's;
    never add an AI co-author trailer.
 5. **Tie the PR to the issue.** PR body carries `Closes #<N>`. Journal _deviations from the
    issue's plan_ specifically as PR comments while working — that's the signal a plan-vs-diff

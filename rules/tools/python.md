@@ -4,10 +4,10 @@ paths:
   - "**/*.py"
 ---
 
-<!-- Python idioms. Canonical source: my dotfiles. Language-level only — never a repo path,
+<!-- Python idioms. Canonical source: this repo. Language-level only — never a repo path,
      service name, or branch name. The paths: frontmatter is the gate: Claude Code loads this
      only when a pyproject.toml/*.py file is read, structurally, no prose guard needed.
-     Rationale: claude/README.md. -->
+     Rationale: README.md. -->
 
 > ### GATE
 >

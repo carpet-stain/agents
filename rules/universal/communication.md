@@ -1,4 +1,4 @@
-<!-- Universal communication style. Canonical source: my dotfiles. Loaded globally.
+<!-- Universal communication style. Canonical source: this repo. Loaded globally.
      What gets said and written, not how the agent operates (ai-collaboration.md). -->
 
 > ### GATE — applies always

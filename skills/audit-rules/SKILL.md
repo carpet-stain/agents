@@ -4,7 +4,7 @@ description: >-
   Audits the global Claude Code agent-config rules tree (~/.claude/rules) for
   contradictions and topic/length sprawl, and checks AGENTS.md/README.md/docs for content
   substantially duplicated across them, reporting proposed fixes without editing anything.
-  Use when asked to audit, review, or check claude/rules for contradictions, conflicting
+  Use when asked to audit, review, or check the rules tree for contradictions, conflicting
   directives, files that have grown too long or cover more than one topic, or repo docs
   that restate the same content in more than one place. Read-only — never invoke this to
   apply a fix, only to find issues.
@@ -42,8 +42,8 @@ as its canonical agent doc, read that too and treat it as the subject wherever t
 
 Read every file in scope fully, then look for:
 
-- **Within-file**: a file asserting X in one section and not-X in another. The #106 "negligible
-  token cost" contradiction in this repo is the worked example of this shape.
+- **Within-file**: a file asserting X in one section and not-X in another — e.g. a file that
+  argues a cost is negligible in one section, then treats the same cost as significant elsewhere.
 - **Cross-file**: two rules files disagreeing — e.g. a `universal/` file and a `tools/` file
   recommending opposite defaults.
 - **Local-doc drift**: the repo's own `AGENTS.md` (or a real `CLAUDE.md`) / `docs/` disagreeing
@@ -62,7 +62,7 @@ sentence) and states plainly why they conflict.
 
 **Rules tree** (`rules/**`) gets two independent signals:
 
-- **Length**: files over ~200 lines — the threshold `claude/README.md`'s own "Why the rule
+- **Length**: files over ~200 lines — the threshold `README.md`'s own "Why the rule
   files are terse" section names. The Read tool's line-numbered output gives you the count for
   free; no need to shell out.
 - **Topic span**: does the file cover more than one coherent topic? This is a qualitative
@@ -70,7 +70,7 @@ sentence) and states plainly why they conflict.
   `philosophy.md` splitting into the four `universal/` files once it outgrew a single topic.
 
 **AGENTS.md and `docs/*.md`** get a length-only check, against the separate, higher threshold
-`claude/README.md`'s "Why the rule files are terse" section names for composed per-repo guides
+`README.md`'s "Why the rule files are terse" section names for composed per-repo guides
 (soft-warn / firm-flag). Don't flag topic span there — spanning many topics is AGENTS.md's job.
 When a file crosses the threshold, don't just report "too long": check it against the
 Restated-enforcement check below and for unpruned topic overlap between its own sections, and
@@ -79,19 +79,16 @@ point at whichever applies as the cause and the pointer-form/de-dup prune as the
 ### Sprawl reduction playbook (AGENTS.md over threshold)
 
 "Too long" alone re-derives the same menu every run. Once a cause above applies, propose cuts
-in this order — each is a strategy that actually shrank a doc in this repo's own history,
-highest-confidence first:
+in this order, highest-confidence first:
 
 1. **Signpost + link.** A section re-explaining content another doc owns collapses to a 1-3
    line essence plus a pointer (`see README.md § ...`, or this repo's doc-home-map if one
    exists). Verify the target doc actually covers it before cutting toward it — pointing at a
-   doc that doesn't hold the material loses the content, it doesn't relocate it. De-duping
-   AGENTS.md against README this way (philosophy list, XDG principle, structure blurb, each
-   folded to a pointer) took one repo's copy 318 → 305 lines in a single pass.
+   doc that doesn't hold the material loses the content, it doesn't relocate it.
 2. **Drop restated-enforcement.** Prose spelling out an exact value a config already enforces
    (a CI regex's allowed-type list, a linter's rule codes) is the Restated-enforcement check's
-   target — cut it there, not just here. The same instinct, applied across this repo's whole
-   rules tree, was the largest single trim on record: 574 → 360 lines (-37%), no directive lost.
+   target — cut it there, not just here. Applied across a whole rules tree, this is usually the
+   largest single trim available, since enumerable specs tend to accrete in prose over time.
 3. **Cut restated-principle sections.** A repo-local section that just re-lists an
    always-loaded `rules/universal/*` principle is pure duplication — the universal rule applies
    every session regardless of whether AGENTS.md repeats it. Keep only the repo-specific slice
@@ -100,9 +97,7 @@ highest-confidence first:
    in two places, a rule stated once under "editing" and again under "git workflow") merge into
    one, cross-referenced from where the other used to be.
 5. **Titles over prose.** For an enumerated list, keep the scannable numbered heading plus one
-   pointer to the doc that owns the reasoning; cut the per-item explanatory paragraph. Merging
-   redundant "why" sections this way took this repo's own `claude/README.md` from 326 → 265
-   lines with no content lost.
+   pointer to the doc that owns the reasoning; cut the per-item explanatory paragraph.
 6. **Merge duplicate command blocks.** Near-identical fenced command examples collapse to one.
 7. **Fix source-of-truth direction.** If AGENTS.md holds mechanics another doc should own, move
    the mechanics there and have AGENTS.md point — don't just trim in place. Watch for the
@@ -121,10 +116,9 @@ restate the config's exact detail as prose — the same signpost-vs-spec distinc
 `compose-agents` now applies when instantiating (see its "Pointer-form for enforced specs"
 step). Flag prose in scope that enumerates an exact, mechanically-checkable value — a literal
 list of allowed values, a regex, a numeric threshold — that a config file present in the current
-repo already defines byte-for-byte. The Conventional-Commit type list restated in prose when a
-CI workflow's regex already enforces it (this repo's own `pr-guards.yml` is the worked example)
-is the shape to look for; a lint-rule-code list restated when a linter config already lists them
-is the same shape.
+repo already defines byte-for-byte. A Conventional-Commit type list restated in prose when a CI
+workflow's regex already enforces it is the shape to look for; a lint-rule-code list restated
+when a linter config already lists them is the same shape.
 
 Don't flag workflow _shape_ (step ordering, when to squash, when to open a PR) even when a slow
 or CI-only gate enforces it — that's guidance no config can teach ahead of time, not a duplicated
@@ -136,11 +130,12 @@ rewrite — same format as the Contradictions check, this is not a new report sh
 
 ## Cross-doc replication check
 
-Issue #140's restated-enforcement check is doc↔config: prose restating a spec a config already
-enforces. This check is the doc↔doc sibling — same single-source-of-truth violation, different
-pair: substantial content restated across AGENTS.md, README.md, and top-level `docs/*.md`
-instead of living in exactly one and being pointed at from the others. Unpruned replication
-between these is a named top cause of AGENTS.md's length problem (#178) — this check names
+carpet-stain/dotfiles#140's restated-enforcement check is doc↔config: prose restating a spec a
+config already enforces. This check is the doc↔doc sibling — same single-source-of-truth
+violation, different pair: substantial content restated across AGENTS.md, README.md, and
+top-level `docs/*.md` instead of living in exactly one and being pointed at from the others.
+Unpruned replication between these is a named top cause of AGENTS.md's length problem
+(carpet-stain/dotfiles#178) — this check names
 which content to cut, length only measures the symptom.
 
 **Substantial** means a full sentence, list item, or table row making the same claim with the
@@ -216,7 +211,7 @@ resolve it — a suggestion, not a diff, since this skill cannot write.
 
 ## Non-goals
 
-The two maintenance judgment gates from `claude/README.md`'s "Maintenance discipline" —
+The two maintenance judgment gates from `README.md`'s "Maintenance discipline" —
 _add a rule only after it would have prevented an actual mistake_, and _remove a rule once it's
 followed without being told_ — stay human calls. Don't attempt to apply either; this skill only
 surfaces contradictions and sprawl for a human to weigh.

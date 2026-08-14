@@ -7,10 +7,10 @@ paths:
   - "**/.terraform.lock.hcl"
 ---
 
-<!-- Terraform/OpenTofu idioms. Canonical source: my dotfiles. Language-level only — never a
+<!-- Terraform/OpenTofu idioms. Canonical source: this repo. Language-level only — never a
      repo path, state bucket, org name, or branch. The paths: frontmatter is the gate: Claude
      Code loads this only when a TF file is read, structurally, no prose guard needed.
-     Rationale: claude/README.md. -->
+     Rationale: README.md. -->
 
 > ### GATE
 >

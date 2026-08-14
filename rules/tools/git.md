@@ -1,7 +1,7 @@
-<!-- Git workflow mechanics, platform-agnostic. Canonical source: my dotfiles.
+<!-- Git workflow mechanics, platform-agnostic. Canonical source: this repo.
      VCS-level only: same on GitHub, GitLab, Bitbucket, or a bare remote. Platform specifics
      (gh/glab, Actions, a host's squash-merge behavior) live in the platform file (github.md).
-     Rationale: claude/README.md. -->
+     Rationale: README.md. -->
 
 > ### GATE
 >
@@ -34,8 +34,8 @@ imperative lowercase subject ≤50 chars (hard limit 72); `type` ∈ feat/fix/do
 test/build/ci/chore; `scope` from this repo's <scopes>. Breaking change: `type!:` or a
 `BREAKING CHANGE:` footer. Blank line, then a body wrapped at 72 explaining _what_ and _why_, never
 _how_. `Co-authored-by:` per human contributor. An agent identity is a first-class git author:
-it goes in the author field (`GIT_AUTHOR_NAME`/`GIT_AUTHOR_EMAIL` — ADR-0038 in the dotfiles
-repo), never as a co-author trailer or a tool-credit line in the message. One logical change per
+it goes in the author field (`GIT_AUTHOR_NAME`/`GIT_AUTHOR_EMAIL` — carpet-stain/dotfiles
+ADR-0038), never as a co-author trailer or a tool-credit line in the message. One logical change per
 commit; propose the split before committing.
 
 ## Version Control Discipline

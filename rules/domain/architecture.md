@@ -1,7 +1,7 @@
-<!-- Application-architecture principles. Canonical source: my dotfiles. Domain-level, NOT
+<!-- Application-architecture principles. Canonical source: this repo. Domain-level, NOT
      universal: applies only when building software with distinct internal layers (a service, a
      CLI with orchestration, a library with a public contract). Extracted from design-principles.md
-     so it stops loading in config/script/dotfiles repos. Rationale: claude/README.md. -->
+     so it stops loading in config/script/dotfiles repos. Rationale: README.md. -->
 
 > ### GATE
 >

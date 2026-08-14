@@ -1,7 +1,7 @@
-<!-- Universal design principles. Canonical source: my dotfiles. Loaded globally.
+<!-- Universal design principles. Canonical source: this repo. Loaded globally.
      How code and tools are shaped, not how work gets done (engineering-practices.md) or how
      the agent operates (ai-collaboration.md, communication.md). Layered-app architecture is
-     domain-specific — see domain/architecture.md. Rationale: claude/README.md. -->
+     domain-specific — see domain/architecture.md. Rationale: README.md. -->
 
 > ### GATE — applies always
 >
