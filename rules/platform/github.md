@@ -1,7 +1,7 @@
-<!-- GitHub platform mechanics. Canonical source: my dotfiles. Platform-level only: gh CLI,
+<!-- GitHub platform mechanics. Canonical source: this repo. Platform-level only: gh CLI,
      GitHub Actions, and GitHub's specific behaviors of the generic git workflow (git.md).
      Wrong for non-GitHub repos. Assumes git.md's workflow is in effect.
-     Rationale: claude/README.md. -->
+     Rationale: README.md. -->
 
 > ### GATE
 >

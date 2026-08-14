@@ -9,7 +9,8 @@ description: >-
   anything. Use when asked to audit, review, or check agent/backlog-manager memory for stale
   pointers, restated issue status, orphaned entities, entities that have outgrown one topic, or
   memory content that should live in repo docs instead. The detection backstop to the write-time
-  contract in `backlog-manager.md`. Read-only — never invoke it to apply a fix.
+  contract in carpet-stain/dotfiles's `claude/agents/backlog-manager.md`. Read-only — never invoke
+  it to apply a fix.
 allowed-tools: Read, Glob, Grep, Bash(gh issue view:*), Bash(gh issue list:*), Bash(gh search issues:*), Bash(gh label list:*), Bash(jq:*)
 disallowed-tools: Write, Edit
 ---
@@ -17,16 +18,17 @@ disallowed-tools: Write, Edit
 # Audit Memory
 
 Read-only audit of backlog-manager's knowledge-graph memory — the detection half of keeping that
-memory honest, paired with the write-time pointer-layer contract in `backlog-manager.md`
-(prevention; ADR-0036 owns the model). Sibling to `audit-rules`: same propose-don't-apply
-contract, same report shape, a different target. Report findings and proposed fixes — never edit
-anything.
+memory honest, paired with the write-time pointer-layer contract in carpet-stain/dotfiles's
+`claude/agents/backlog-manager.md` (prevention; carpet-stain/dotfiles ADR-0036 owns the model).
+Sibling to `audit-rules`: same propose-don't-apply contract, same report shape, a different
+target. Report findings and proposed fixes — never edit anything.
 
 **The auditor is not the author.** This runs as its own skill precisely so the actor that writes
 memory doesn't grade its own work — a deliberate independent read, the same reason `audit-rules`
 exists as a separate pass. Don't invoke it _as_ the backlog-manager — and since a skill runs in
 its caller's context, a session that wrote memory runs it via a **fresh-context subagent**
-pointed at this file, never inline (the sanctioned pattern per #412's spike decision).
+pointed at this file, never inline (the sanctioned pattern per carpet-stain/dotfiles#412's spike
+decision).
 
 **On the read-only guarantee.** `disallowed-tools` blocks Write/Edit; the store is read as a
 plain file (Read/jq), never through the `mcp__memory` write-capable tools; and Bash is scoped in
@@ -41,7 +43,8 @@ don't do it.
 Audit the machine-global store `~/.claude/agent-memory-mcp/backlog-manager.jsonl` — one JSONL
 file, one record per line: `{"type":"entity","name":...,"entityType":...,"observations":[...]}`
 or `{"type":"relation","from":...,"to":...,"relationType":...}`. Read it directly (Read or jq);
-it is deliberately human-readable (ADR-0036). If the file is missing or empty, say so and stop —
+it is deliberately human-readable (carpet-stain/dotfiles ADR-0036). If the file is missing or
+empty, say so and stop —
 "no graph memory on this machine," not a pile of empty findings.
 
 The graph spans every repo. Repo scoping is relational: `repo-map` entities name the repos;
@@ -124,7 +127,8 @@ The doc↔memory sibling of `audit-rules`' Cross-doc replication check: content 
 that belongs in a durable documentation home — README, AGENTS.md, or an ADR — rather than in
 memory, because it's general repo documentation, not backlog-manager-audience material, and
 isn't already stated in README.md/AGENTS.md/docs. The spec for what memory may hold at all is
-the pointer-layer contract (ADR-0033, carried into ADR-0036); this check is its lint.
+the pointer-layer contract (carpet-stain/dotfiles ADR-0033, carried into ADR-0036); this check is
+its lint.
 
 Two boundaries, fixed deliberately:
 

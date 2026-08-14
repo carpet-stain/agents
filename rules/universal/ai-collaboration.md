@@ -1,7 +1,7 @@
-<!-- Universal AI collaboration guide. Canonical source: my dotfiles. Loaded globally.
+<!-- Universal AI collaboration guide. Canonical source: this repo. Loaded globally.
      How the agent operates and works with me, not what the code/output looks like
      (design-principles.md, engineering-practices.md, communication.md).
-     Rationale for the terse style: claude/README.md § Why the rule files are terse. -->
+     Rationale for the terse style: README.md § Why the rule files are terse. -->
 
 > ### GATE — applies always
 >

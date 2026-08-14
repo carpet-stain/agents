@@ -4,10 +4,10 @@ paths:
   - "**/*.go"
 ---
 
-<!-- Go idioms. Canonical source: my dotfiles. Language-level only — never a repo path,
+<!-- Go idioms. Canonical source: this repo. Language-level only — never a repo path,
      service name, or branch name. The paths: frontmatter is the gate: Claude Code loads this
      only when a go.mod/*.go file is read, structurally, no prose guard needed.
-     Rationale: claude/README.md. -->
+     Rationale: README.md. -->
 
 > ### GATE
 >

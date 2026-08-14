@@ -1,6 +1,6 @@
-<!-- Universal engineering practices. Canonical source: my dotfiles. Loaded globally.
+<!-- Universal engineering practices. Canonical source: this repo. Loaded globally.
      How work gets done over time (testing, docs, refactoring, security), not how code is
-     shaped in the moment (design-principles.md). Rationale: claude/README.md. -->
+     shaped in the moment (design-principles.md). Rationale: README.md. -->
 
 > ### GATE — applies always
 >
