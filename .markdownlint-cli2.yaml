@@ -8,3 +8,10 @@ config:
   # Generated docs and ADRs may open with a badge line or front matter before
   # the H1 — don't force the first line to be a top-level heading.
   MD041: false
+  # rules/*.md deliberately open with a blockquote-styled GATE/LOCAL-WINS/
+  # COMPOSE meta-header (stacked blockquote paragraphs, separated by blank
+  # lines) before the file's real H1 — not a mistake to flag.
+  MD028: false
+  # <placeholder> markers (<scopes>, <version-scheme>, etc.) in rules/ are
+  # literal template syntax, not real HTML.
+  MD033: false
