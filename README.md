@@ -52,20 +52,21 @@ Claude Code and emitted in a form no model is locked out of.
 `rules/` groups files by how broadly they apply — the directory name is the scope, nothing to
 cross-reference:
 
-| Directory            | File                                                             | Applies to                             | Loading                                                             |
-| -------------------- | ---------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
-| `rules/universal/`   | `design-principles.md`                                           | How code/tools are shaped              | Always applies                                                      |
-|                      | `engineering-practices.md`                                       | How work gets done (testing, security) | Always applies                                                      |
-|                      | `documentation.md`                                               | Documentation ownership & currency     | Always applies                                                      |
-|                      | `ai-collaboration.md`                                            | How the agent operates                 | Always applies                                                      |
-|                      | `communication.md`                                               | What gets said/written                 | Always applies                                                      |
-| `rules/domain/`      | `architecture.md`                                                | Building a layered application         | Self-gates on being a layered app                                   |
-| `rules/tools/`       | `git.md`                                                         | Any git repo, any host                 | Always applies (trivial gate)                                       |
-|                      | `go.md`                                                          | Go repos only                          | Native `paths:` frontmatter — loads only on `go.mod`/`*.go`         |
-|                      | `python.md`                                                      | Python repos only                      | Native `paths:` frontmatter — loads only on `pyproject.toml`/`*.py` |
-|                      | `terraform.md`                                                   | Terraform/OpenTofu repos only          | Native `paths:` frontmatter — loads only on `*.tf`/`*.tofu`/etc.    |
-| `rules/platform/`    | `github.md`                                                      | GitHub-hosted repos only               | Self-gates on github.com origin                                     |
-| _(a consuming repo)_ | a private platform file, local-only rules, `AGENTS.md` + `docs/` | One repo only                          | The consuming repo's own local files, layered alongside this tree   |
+| Directory            | File                                                             | Applies to                                 | Loading                                                             |
+| -------------------- | ---------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------- |
+| `rules/universal/`   | `design-principles.md`                                           | How code/tools are shaped                  | Always applies                                                      |
+|                      | `engineering-practices.md`                                       | How work gets done (testing, security)     | Always applies                                                      |
+|                      | `documentation.md`                                               | Documentation ownership & currency         | Always applies                                                      |
+|                      | `ai-collaboration.md`                                            | How the agent operates                     | Always applies                                                      |
+|                      | `communication.md`                                               | What gets said/written                     | Always applies                                                      |
+|                      | `voice.md`                                                       | How a maintainer's own shipped work sounds | Always applies (content-scope test in its header)                   |
+| `rules/domain/`      | `architecture.md`                                                | Building a layered application             | Self-gates on being a layered app                                   |
+| `rules/tools/`       | `git.md`                                                         | Any git repo, any host                     | Always applies (trivial gate)                                       |
+|                      | `go.md`                                                          | Go repos only                              | Native `paths:` frontmatter — loads only on `go.mod`/`*.go`         |
+|                      | `python.md`                                                      | Python repos only                          | Native `paths:` frontmatter — loads only on `pyproject.toml`/`*.py` |
+|                      | `terraform.md`                                                   | Terraform/OpenTofu repos only              | Native `paths:` frontmatter — loads only on `*.tf`/`*.tofu`/etc.    |
+| `rules/platform/`    | `github.md`                                                      | GitHub-hosted repos only                   | Self-gates on github.com origin                                     |
+| _(a consuming repo)_ | a private platform file, local-only rules, `AGENTS.md` + `docs/` | One repo only                              | The consuming repo's own local files, layered alongside this tree   |
 
 Roughly ordered by breadth: universal (every project) → domain (a class of codebase, e.g. a
 layered application) → tools (git/language) → platform (host) → repo (whichever repo consumes
@@ -174,11 +175,24 @@ costs nothing until used.
   unstated assumptions, boundary problems, simpler alternatives). Repo-agnostic — reads the repo's
   conventions at runtime — and read-only by structural guarantee (no Write/Edit in its tools, like
   `audit-rules`). Delegate before committing to a non-trivial plan, or by name.
+- **`backlog-manager`** — a project-manager / ticket specialist that owns GitHub issue and backlog
+  work: writing, labeling, prioritizing, grooming, and driving issues. Repo-agnostic — it reads each
+  repo's labels and conventions at runtime rather than hardcoding them — and retains backlog knowledge
+  across sessions in an MCP knowledge-graph memory (see below). Delegate by mentioning issues/backlog,
+  by name, or run a dedicated session with `claude --agent backlog-manager`.
 
-A consuming repo may keep additional subagents of its own alongside this tree (a project-manager /
-backlog specialist with persistent memory, for instance) — those live in the consuming repo, not
-here, when they carry repo-specific memory or identity that shouldn't be shared across every
-consumer.
+### Subagent memory: a private machine-global knowledge graph
+
+Backlog-manager's memory is an MCP knowledge graph (`@modelcontextprotocol/server-memory`, wired
+inline in its frontmatter) backed by one private local store at
+`~/.claude/agent-memory-mcp/backlog-manager.jsonl` — outside every repo, so private by
+construction and shared across whichever repos a machine works in, not scoped to any one
+consumer of this tree. Writes persist immediately with no sync step or review gate. The dividing
+line from the subagent's own definition (`agents/backlog-manager.md`) is unchanged: a rule that
+would hold for this subagent in _any_ repo belongs in the definition; a fact specific to one repo
+lives in the graph, related to that repo's `repo-map` entity. Content follows the pointer-layer
+contract (one-line pointer-shaped facts, never restated issue status); the `audit-memory` skill
+is the detection backstop.
 
 ## Skills (`skills/`)
 
