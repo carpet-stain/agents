@@ -39,6 +39,9 @@ opening PRs live in the repo's own git workflow doc — this skill doesn't resta
    check reads later.
 6. **Write terse.** Code comments explain why, not what; detail belongs on the issue, not in the
    diff. The PR description and comments stay terse by the same discipline.
-7. **At finalize, hand off.** Apply the repo's PR handoff rule if it states one (self-sufficient
+7. **Record token cost, if this repo tracks it.** Check AGENTS.md for a per-issue token-accounting
+   step (a `just`/script recipe keyed by the issue number) and run it before finalizing. Purely
+   repo-specific — skip silently where none is defined.
+8. **At finalize, hand off.** Apply the repo's PR handoff rule if it states one (self-sufficient
    top post, journal as optional depth) — rewrite the PR body to stand alone before flipping ready.
    Stop there. Flipping the PR to ready-for-review is the handoff; merging is someone else's call.
