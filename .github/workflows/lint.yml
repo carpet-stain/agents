@@ -22,7 +22,7 @@ jobs:
     # required-status-check branch protection. Same gate as pr-guards.yml.
     if: github.event.pull_request.draft == false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Portable toolchain, no Homebrew (#276): install each linter its native way
       # instead of assuming Homebrew. `just lint` still drives the shared lefthook.
