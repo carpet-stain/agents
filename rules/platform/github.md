@@ -27,12 +27,15 @@ checks. "PR" is GitHub's review/merge request.
 
 ## Local tooling
 
-`gh` defaults to a scoped-down fine-grained PAT (contents/PRs/actions read-write, no
-Administration), not a full `gh auth login` session, so routine work can't touch repo settings or
-branch protection. How to elevate is credential-setup-specific — the repo's own credential doc
-(AGENTS.md or equivalent, authoritative under LOCAL-WINS) names the mechanic; elevate only for
-the one action that needs admin, never as the session default. `act` runs the Actions workflows
-locally via Docker, for testing without pushing.
+Routine `gh` work runs under a scoped-down credential resolved by the repo's own environment
+(its `.envrc` or equivalent), never a full-admin session, so an agent driving the CLI can't touch
+repo settings or branch protection. Which credential that is, what scopes it carries, and how to
+elevate for the one action that needs admin are the repo's own credential doc's to state
+(AGENTS.md — LOCAL-WINS): those mechanics vary per repo and drift, so this file keeps only the
+principle. One portable rule when elevation works by dropping env vars: drop every variable that
+could carry the same token — a repo often aliases `GITHUB_TOKEN` to the same scoped value as
+`GH_TOKEN`, so dropping one alone is a no-op. `act` runs the Actions workflows locally via Docker,
+for testing without pushing.
 
 ## Early draft PRs — `git pr` / `git pr --draft`
 
