@@ -52,21 +52,22 @@ Claude Code and emitted in a form no model is locked out of.
 `rules/` groups files by how broadly they apply — the directory name is the scope, nothing to
 cross-reference:
 
-| Directory            | File                                                             | Applies to                                 | Loading                                                             |
-| -------------------- | ---------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------- |
-| `rules/universal/`   | `design-principles.md`                                           | How code/tools are shaped                  | Always applies                                                      |
-|                      | `engineering-practices.md`                                       | How work gets done (testing, security)     | Always applies                                                      |
-|                      | `documentation.md`                                               | Documentation ownership & currency         | Always applies                                                      |
-|                      | `ai-collaboration.md`                                            | How the agent operates                     | Always applies                                                      |
-|                      | `communication.md`                                               | What gets said/written                     | Always applies                                                      |
-|                      | `voice.md`                                                       | How a maintainer's own shipped work sounds | Always applies (content-scope test in its header)                   |
-| `rules/domain/`      | `architecture.md`                                                | Building a layered application             | Self-gates on being a layered app                                   |
-| `rules/tools/`       | `git.md`                                                         | Any git repo, any host                     | Always applies (trivial gate)                                       |
-|                      | `go.md`                                                          | Go repos only                              | Native `paths:` frontmatter — loads only on `go.mod`/`*.go`         |
-|                      | `python.md`                                                      | Python repos only                          | Native `paths:` frontmatter — loads only on `pyproject.toml`/`*.py` |
-|                      | `terraform.md`                                                   | Terraform/OpenTofu repos only              | Native `paths:` frontmatter — loads only on `*.tf`/`*.tofu`/etc.    |
-| `rules/platform/`    | `github.md`                                                      | GitHub-hosted repos only                   | Self-gates on github.com origin                                     |
-| _(a consuming repo)_ | a private platform file, local-only rules, `AGENTS.md` + `docs/` | One repo only                              | The consuming repo's own local files, layered alongside this tree   |
+| Directory            | File                                                             | Applies to                                 | Loading                                                                   |
+| -------------------- | ---------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------- |
+| `rules/universal/`   | `design-principles.md`                                           | How code/tools are shaped                  | Always applies                                                            |
+|                      | `engineering-practices.md`                                       | How work gets done (testing, security)     | Always applies                                                            |
+|                      | `documentation.md`                                               | Documentation ownership & currency         | Always applies                                                            |
+|                      | `ai-collaboration.md`                                            | How the agent operates                     | Always applies                                                            |
+|                      | `communication.md`                                               | What gets said/written                     | Always applies                                                            |
+|                      | `voice.md`                                                       | How a maintainer's own shipped work sounds | Always applies (content-scope test in its header)                         |
+| `rules/domain/`      | `architecture.md`                                                | Building a layered application             | Self-gates on being a layered app                                         |
+| `rules/tools/`       | `git.md`                                                         | Any git repo, any host                     | Always applies (trivial gate)                                             |
+|                      | `go.md`                                                          | Go repos only                              | Native `paths:` frontmatter — loads only on `go.mod`/`*.go`               |
+|                      | `python.md`                                                      | Python repos only                          | Native `paths:` frontmatter — loads only on `pyproject.toml`/`*.py`       |
+|                      | `terraform.md`                                                   | Terraform/OpenTofu repos only              | Native `paths:` frontmatter — loads only on `*.tf`/`*.tofu`/etc.          |
+|                      | `typescript.md`                                                  | TypeScript repos only                      | Native `paths:` frontmatter — loads only on `package.json`/`*.ts`/`*.tsx` |
+| `rules/platform/`    | `github.md`                                                      | GitHub-hosted repos only                   | Self-gates on github.com origin                                           |
+| _(a consuming repo)_ | a private platform file, local-only rules, `AGENTS.md` + `docs/` | One repo only                              | The consuming repo's own local files, layered alongside this tree         |
 
 Roughly ordered by breadth: universal (every project) → domain (a class of codebase, e.g. a
 layered application) → tools (git/language) → platform (host) → repo (whichever repo consumes
@@ -100,10 +101,11 @@ of each file the agent evaluates against the current repo — **GATE** (when the
   (emphatically — its commands are _wrong_ elsewhere, not merely unnecessary). Distinct platforms are
   mutually exclusive per repo, each gating on its own tooling.
 
-The language files (`go.md`, `python.md`, `terraform.md`) are the exception: they use Claude Code's
-native `paths:` frontmatter instead of a prose guard, because "is this a `.go`/`go.mod` (or
-`.py`/`pyproject.toml`, or `.tf`) file" is a crisp per-file signal a glob expresses directly —
-unlike GitHub-origin or platform-tooling checks, which have no path to hook into.
+The language files (`go.md`, `python.md`, `terraform.md`, `typescript.md`) are the exception: they
+use Claude Code's native `paths:` frontmatter instead of a prose guard, because "is this a
+`.go`/`go.mod` (or `.py`/`pyproject.toml`, or `.tf`, or `package.json`/`.ts`/`.tsx`) file" is a
+crisp per-file signal a glob expresses directly — unlike GitHub-origin or platform-tooling checks,
+which have no path to hook into.
 
 This is a **blacklist** (load everything, exclude what doesn't fit), not a whitelist (opt-in per
 repo). Worth it because only a few broad files match most work, so loading them all is a small,
