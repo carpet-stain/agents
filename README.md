@@ -374,5 +374,7 @@ should apply.
 ## Contributing
 
 The contributor guide — workflow, commit rules, tooling, credentials — lives in
-`AGENTS.md`. Architecture decisions live in [`docs/adr/`](docs/adr/README.md). This README is the
-human front door and points at those homes rather than restating them.
+`AGENTS.md`. Architecture decisions live in [`docs/adr/`](docs/adr/README.md). The decided
+philosophy behind how this project treats AI agents lives in
+[`docs/operating-model.md`](docs/operating-model.md). This README is the human front door and
+points at those homes rather than restating them.
