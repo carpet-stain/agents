@@ -27,7 +27,7 @@ mcpServers:
         - >-
           mkdir -p "$HOME/.claude/agent-memory-mcp" &&
           MEMORY_FILE_PATH="$HOME/.claude/agent-memory-mcp/backlog-manager.jsonl"
-          exec npx -y @modelcontextprotocol/server-memory
+          exec npx -y @modelcontextprotocol/server-memory@2026.7.4
 # Judgment-heavy role: capable model, medium effort as the cost control (see
 # rules/universal/ai-collaboration.md, "Match Model And Effort To Task Risk").
 model: claude-opus-4-8
