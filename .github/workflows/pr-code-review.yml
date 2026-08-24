@@ -24,19 +24,25 @@ jobs:
           role-to-assume: ${{ vars.AWS_OPENROUTER_ROLE_ARN }}
           aws-region: us-east-1
 
-      # Advisory only: a role-assume or SSM fetch failure skips the review, never fails the job (infra#220).
+      # Advisory only, never fails the job (infra#220). No role ARN configured skips
+      # silently by design; configured-but-failed warns instead of a silent green skip (agents#18).
       - name: Check for the review API key
         id: guard
         run: |
+          if [ -z "${{ vars.AWS_OPENROUTER_ROLE_ARN }}" ]; then
+            echo "AWS_OPENROUTER_ROLE_ARN not configured — advisory review skipped by design." >&2
+            echo "enabled=false" >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
           if [ "${{ steps.aws-creds.outcome }}" != "success" ]; then
-            echo "OIDC role assume failed — advisory review skipped." >&2
+            echo "::warning::OpenRouter role is configured but the OIDC assume-role step failed — advisory review skipped. Check AWS_OPENROUTER_ROLE_ARN and its trust policy."
             echo "enabled=false" >>"$GITHUB_OUTPUT"
             exit 0
           fi
           value="$(aws ssm get-parameter --name /runtime/openrouter-api-key \
             --with-decryption --query Parameter.Value --output text 2>/dev/null)" || value=""
           if [ -z "$value" ]; then
-            echo "OPENAI_API_KEY not available from SSM — advisory review skipped." >&2
+            echo "::warning::Failed to fetch the OpenRouter API key from SSM (/runtime/openrouter-api-key) — advisory review skipped."
             echo "enabled=false" >>"$GITHUB_OUTPUT"
           else
             echo "::add-mask::$value"
