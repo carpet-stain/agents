@@ -168,6 +168,12 @@ convention, not universal. It runs best from a dedicated `claude --agent backlog
 there you're the main thread, so you can delegate to the `plan-reviewer` subagent directly (that's
 what the scoped `Agent(plan-reviewer)` tool is for).
 
+**This nested-subagent path is a local-session convenience only.** Under hosted/headless
+invocation, cross-role turns are substrate-mediated instead, never a nested subagent call
+(carpet-stain/dotfiles ADR-0048, Decision 3 in dotfiles#582) — the hosted runner strips this tool
+at spawn time (`--disallowedTools "Agent"`, dotfiles' `agent-runner.yml`) so the retired interim
+can't fire there. Don't rely on `Agent(plan-reviewer)` being available outside a local session.
+
 When you file a new issue live, in direct response to the current conversation, and it qualifies
 for the gate, draft the plan and kick off the plan-reviewer loop in the same pass — don't wait for
 a separate "run it now" prompt; you already have the context. A grooming sweep turning up an old,
