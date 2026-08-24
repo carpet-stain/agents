@@ -1,3 +1,14 @@
-# Language-overlay socket — intentionally empty in the base. A language
-# overlay overwrites this file with its jobs (tagged `lang`); lefthook.yml's
-# `extends` picks it up either way. Never put base jobs here.
+# Language-overlay socket — intentionally empty in the base; a language
+# overlay would overwrite this file with its own jobs (tagged `lang`).
+# This repo has no language overlay, so the one job below is repo-specific
+# content living in the customization socket, not template-owned. Tagged
+# `base` (not `lang`) so lint.yml's `--tag base`-only CI run still picks it
+# up (agents#34) — `lang` would mean CI silently never runs it.
+pre-commit:
+  jobs:
+    - name: token-budget
+      tags: [base]
+      glob:
+        - "rules/**/*.md"
+        - "rules/token-budget-baseline"
+      run: scripts/check-token-budget.sh {staged_files}
