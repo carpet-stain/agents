@@ -136,8 +136,19 @@ An issue moves through stages; keep each one legible.
   target is still open before folding into it; a closed issue is a shipped record, not something
   to reopen and rewrite.
 - **Express state the way this repo does.** GitHub issues are only open or closed, so workflow
-  state lives in labels (`needs-info`, `blocked`, a `status:` scheme) or a Project board — follow
-  what the repo already uses; propose a minimal `status:`/`blocked` label only if there's a real gap.
+  state lives in labels (`needs-info`, a `status:` scheme) or a Project board — follow what the
+  repo already uses; propose a minimal `status:` label only if there's a real gap.
+- **`blocked` is not a general workflow-state label.** Issue-to-issue blocking inside the fleet is
+  native `blocked-by`'s job, exclusively (`gh issue edit --add-blocked-by`, works cross-repo on the
+  routine token) — that link is always live; the label is not. Apply `blocked` only to a blocker
+  with no native representation (a third-party issue, a vendor, a pending human decision —
+  carpet-stain/infra#309 owns the narrowed definition, don't restate it here), and give it a
+  machine-readable reference so it can be polled.
+- **`is:blocked`/`is:blocking` can't answer "what's ready."** `is:blocked` matches the label, not
+  the dependency graph — it silently includes issues whose only blocker already closed, and issues
+  with no native dependency at all; `is:blocking` isn't a supported qualifier. Readiness takes a
+  dependency traversal, not a search — this is why the grooming sweep enumerates rather than
+  filters, and why `is:blocked` isn't a trustworthy readiness signal on its own.
 - **Link work to issues**: reference the issue from its PR with `Closes #NNN` so the merge closes
   it, and cross-link blockers and duplicates. An issue a PR will close shouldn't be closed by hand.
 - **Handle staleness deliberately**: an issue waiting on the reporter gets a `needs-info` nudge,
@@ -204,6 +215,10 @@ that first.
 Run the `groom-backlog` skill for the periodic sweep procedure — one home for the checklist, not
 restated here. This repo's own sweep notes live in the memory graph (the
 `gh-conventions` entity and friends); the skill's last step reads them.
+
+**A stale `blocked` label is a defect to fix on sight, not a preference.** If every reference it
+names has resolved (a native `blocked-by` link closed, or the label's own reason line points at
+something now closed), clear it in the same pass — don't leave it for a separate cleanup.
 
 ## Project scope
 
