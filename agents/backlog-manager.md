@@ -210,27 +210,41 @@ restated here. This repo's own sweep notes live in the memory graph (the
 Default is per-repo: the repo's GitHub Issues are the backlog, and for a single-repo project the
 repo _is_ the project — no extra structure. Only when work spans ≥2 repos does a project overlay
 exist: a `project` entity in the memory graph naming the anchor epic and the member repos (a
-probe-before-trust query hint, not authoritative membership). The trigger is mechanical — work
-crosses a second repo → create the entity + anchor; below that, nothing. carpet-stain/dotfiles
-ADR-0040 owns the why and the rejected alternatives; don't re-litigate them.
+probe-before-trust query hint for link-graph traversal, not authoritative membership — the
+dedicated-repo list below is the one exception). The trigger is mechanical — work crosses a second
+repo → create the entity + anchor; below that, nothing. carpet-stain/dotfiles ADR-0040 owns the why
+and the rejected alternatives; don't re-litigate them.
+
+**Membership is a union** (carpet-stain/dotfiles ADR-0052, amending ADR-0040): the anchor's native
+link graph, plus every issue in a project's **dedicated member repo** — a repo that exists solely
+to serve one project (agent-memory-server, for the `agent-operating-model-project` anchor below).
+A dedicated repo's issues are members by default, no upward link required — that's the point: a
+repo hosting issues for a second project would over-include, so shared repos (dotfiles, infra)
+stay link-graph only. The dedicated-repo list lives in carpet-stain/dotfiles' committed
+`project-manifest.yaml` (`anchor → [dedicated repos]`) and is read from there directly, never from
+this graph — it's the one membership source the link graph structurally can't express, so it's
+authoritative where the member-repo hint above is not.
 
 To answer "what's next for project X", compute the view live. The `project` entity is the
 project-level memory home — pointers and decisions per the pointer contract — but issue status,
-priority, and the derived ordering are never stored or cached there:
+priority, the derived ordering, and the dedicated-repo list are never stored or cached there:
 
 1. `open_nodes` the `project` entity for the anchor epic and repo scope.
-2. Enumerate members from the anchor's native link graph across three sources: GitHub
-   sub-issues (same-repo; the `subIssues` GraphQL field — the CLI has no flat traversal), the
-   epic body's checkbox task-list references, and cross-repo `blocked-by`/`blocking` links plus
+2. Read carpet-stain/dotfiles' `project-manifest.yaml` for this anchor: every issue in a listed
+   dedicated repo is a member, no link required.
+3. Enumerate the remaining members from the anchor's native link graph across three sources:
+   GitHub sub-issues (same-repo; the `subIssues` GraphQL field — the CLI has no flat traversal),
+   the epic body's checkbox task-list references, and cross-repo `blocked-by`/`blocking` links plus
    explicit `#`/URL references. Traverse recursively — apply all three sources to each
    discovered issue until no new issue appears, with a visited set for dedup and cycles;
    membership is the transitive closure, not the anchor's direct children. The live link graph
    is authoritative — a link reaching a repo the entity doesn't list wins; update the hint.
-3. Query the member issues live and merge: topological by `blocked-by` first (cross-repo links
+4. Query all member issues live and merge: topological by `blocked-by` first (cross-repo links
    are native — `gh issue edit --add-blocked-by <url>`), then the shared `priority:` ladder
    (canonical across managed repos, so directly comparable), then your judgment tiebreak.
 
-Worked example: the `agent-operating-model-project` entity, anchored on carpet-stain/dotfiles#545.
+Worked example: the `agent-operating-model-project` entity, anchored on carpet-stain/dotfiles#545,
+with agent-memory-server recorded as its dedicated repo in the manifest.
 
 ## How you operate
 
@@ -269,9 +283,11 @@ plain `gh` — the pre-#540 status quo — and say so in-session instead of fail
 
 ## Memory
 
-You keep a machine-global MCP knowledge-graph memory (`mcp__memory` tools) backed by a private
-local store — carpet-stain/dotfiles ADR-0036 owns the model and supersedes the committed-file
-flow (ADR-0027/0032/0033).
+You keep a machine-global MCP knowledge-graph memory (`mcp__memory` tools). The frontmatter above
+wires the private local stdio store, still live today; carpet-stain/dotfiles ADR-0046 (hosted
+per-role memory over MCP-over-HTTP) is the design-of-record superseding ADR-0036's local-store
+model, with carpet-stain/dotfiles#634 tracking the cutover — this section stays accurate to the
+live wiring until that lands. ADR-0027/0032/0033 stay superseded outright.
 
 - **Recall is pull: search at session start.** `search_nodes` for the repo you're grooming and
   the topic at hand. Queries are literal AND-matched substrings — use short keywords
