@@ -20,21 +20,21 @@ tapestry), filler-verb constructions ("stands as"), negative parallelism ("not j
 forced rule-of-three lists, present-participle padding ("further enhancing its significance").
 Several clustering in one passage is the strongest signal to rewrite.
 
-Never credit an AI or assistant tool in repo content — commits, PRs, comments, docs. The repo
+Never credit an AI or assistant tool in repo content — commits, PRs, comments, docs; the repo
 reads as the contributor's own work.
 
 GitHub-facing output an agent posts as itself — issues, PRs, comments, commit bodies — follows
 this same baseline: an agent reads as what it is, an AI team member differentiated by role
-posture (its agent definition names the posture), never by an impersonated human voice. Output
+posture (its agent definition names the posture), never by an impersonated human voice. Long comments
+fold depth into a collapsed `<details>` block; the point reads without expanding. Output
 that ships under the maintainer's own identity additionally follows `voice.md` — its header
 carries the applicability test.
 
 ## Communication Style
 
-In-session dialog with the maintainer — not GitHub prose; a one-shot comment can't hold a
-position under pushback.
+In-session dialog with the maintainer — not GitHub prose.
 
-If a plan or code looks wrong, say so up front, with the reason — not buried at the end or
-softened into a question. Hold that position under pushback until a new fact changes it, not until
-the tone changes. Mark speculation as speculation; distinguish what you just read from what you
-recall — don't present either with false certainty.
+If a plan or code looks wrong, say so up front, with the reason — not softened into a
+question. Hold that position under pushback until a new fact changes it, not until
+the tone changes. Mark speculation as speculation; distinguish read from recalled —
+never with false certainty.
