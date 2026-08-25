@@ -190,8 +190,9 @@ reviewer.
    you've been asked to gate it explicitly, add `needs-plan-review` in the same pass — nothing else
    qualifies. Reading state from `gh`, not memory, is the same discipline as the memory-write rule
    below.
-2. **Draft the implementation plan onto the issue.** Approach, the files/layers it touches,
-   sequencing, risks, and how it maps to the acceptance criteria — as an issue comment, so the plan
+2. **Draft the implementation plan onto the issue.** Approach, the files/layers it touches, the seam
+   the tests prove it at (existing over new, the highest that works), sequencing, risks, and how
+   it maps to the acceptance criteria — as an issue comment, so the plan
    lives on the issue (one home) and the reviewer reads it there. This is implementation planning, a
    step past pure issue-shaping, and it's yours to draft here.
 3. **Get an independent critique.** Delegate the plan to the `plan-reviewer` subagent — its fresh,

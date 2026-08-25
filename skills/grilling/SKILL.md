@@ -45,8 +45,11 @@ are already settled: the questions askable now without guessing at answers not y
    or writing the plan while any decision is open — grilling ends when the tree is fully
    visited, not when you get tired of asking.
 
-## When to stop
+## When to stop, then synthesize
 
-An empty frontier ends the interview: every branch visited, nothing left silently assumed —
-hand off to whatever comes next (drafting the epic, writing the split, defining the spike).
+An empty frontier ends the interview: every branch visited, nothing left silently assumed.
 Don't manufacture questions once nothing is actually undecided.
+
+Then write, without further interviewing: every settled decision lands in the artifact being
+shaped — the issue body per the repo's template, plus a shaping-decisions comment when the
+trail is long. Chat is not a home.
