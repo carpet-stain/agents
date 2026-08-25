@@ -28,6 +28,37 @@ mcpServers:
           mkdir -p "$HOME/.claude/agent-memory-mcp" &&
           MEMORY_FILE_PATH="$HOME/.claude/agent-memory-mcp/backlog-manager.jsonl"
           exec npx -y @modelcontextprotocol/server-memory@2026.7.4
+# Role-boundary guard (epic carpet-stain/agents#43, design in #46): blocks
+# commit/push/PR-create so the role can't drift into implementing. Lives here
+# rather than a marker + global settings.json hook (#46's original design)
+# because a frontmatter hook is structurally scoped to this agent already —
+# unlike mcpServers above, docs state hooks fire for the standalone `--agent`
+# case too (unverified empirically this round — mcpServers' own note above
+# shows that gap has bitten before, so treat as doc-sourced until checked
+# locally). Deploys for free via the existing `~/.claude/agents` symlink,
+# which carries no workspace-trust gate (unlike a project-level
+# `.claude/agents/`) — no per-launcher marker to forget to set.
+#
+# Does NOT reach agent-runner.yml's hosted spawn: that job symlinks this file
+# into the checked-out repo's own `.claude/agents/` (project-level, and
+# `claude -p` never shows the trust dialog there), so frontmatter hooks are
+# structurally skipped per Claude Code's docs. The hosted backstop is
+# credential scope instead, verified directly against the workflow: its
+# `claude -p --agent backlog-manager` step carries no GH_TOKEN/GITHUB_TOKEN/
+# AGENT_PAT in its environment, so push/PR-create fail at auth regardless of
+# this hook.
+hooks:
+  PreToolUse:
+    - matcher: Bash
+      hooks:
+        - type: command
+          command: >-
+            cmd=$(jq -r '.tool_input.command // empty');
+            case "$cmd" in
+              *"git commit"*|*"git push"*|*"gh pr create"*|*"git pr"*)
+                echo "backlog-manager doesn't commit, push, or open PRs — shape the issue to plan-approved and hand off to an implementor session (epic #43)." >&2
+                exit 2 ;;
+            esac
 # Judgment-heavy role: capable model, medium effort as the cost control (see
 # rules/universal/ai-collaboration.md, "Match Model And Effort To Task Risk").
 model: claude-opus-4-8
