@@ -220,8 +220,9 @@ fires on request or it doesn't, there's nothing to self-gate against a repo's sh
 - **`audit-memory`** — read-only audit of a project-manager subagent's MCP knowledge-graph memory
   for staleness against live GitHub state, one-home duplication, and broken graph structure. The
   detection backstop to that subagent's own write-time contract, wherever it's defined.
-- **`grilling`** — extracts decisions one at a time before committing to a plan, instead of guessing
-  a batch of assumptions, for genuinely undecided scope.
+- **`grilling`** — extracts decisions in dependency order before committing to a plan, instead of
+  guessing a batch of assumptions: each round asks the frontier of settled-prerequisite questions,
+  for genuinely undecided scope.
 - **`groom-backlog`** — the periodic backlog-sweep procedure: untriaged issues, priority re-weigh,
   dedup, weak-issue tightening, label drift, epic-child verification.
 - **`implement-issue`** — a worker-session ritual for implementing a single shaped GitHub issue end
