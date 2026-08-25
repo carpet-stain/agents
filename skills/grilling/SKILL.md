@@ -45,10 +45,15 @@ are already settled: the questions askable now without guessing at answers not y
    or writing the plan while any decision is open — grilling ends when the tree is fully
    visited, not when you get tired of asking.
 
-## When to stop, then synthesize
+## When to stop: confirm, then synthesize
 
 An empty frontier ends the interview: every branch visited, nothing left silently assumed.
 Don't manufacture questions once nothing is actually undecided.
+
+Before filing anything, read back the whole: a concise shaping summary — what gets filed
+(type, title), the decisions that shaped it, children and blocking edges for an epic, labels
+and priority. A dozen lines; not the implementation. Piecewise yeses during the interview
+don't approve the assembled whole — wait for the go-ahead.
 
 Then write, without further interviewing: every settled decision lands in the artifact being
 shaped — the issue body per the repo's template, plus a shaping-decisions comment when the
