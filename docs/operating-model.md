@@ -129,7 +129,7 @@ alternatives).
 
 → dotfiles ADR-0025 (advisory pipeline: soft plan gate + `pr-code-review`).
 
-## Provider-agnostic by design — [Directional]
+## Provider-agnostic by design — [Directional goal / Decided sequencing]
 
 Definitions, rules, personas, and memory should be portable across providers (Claude, Codex, and the
 rest), never locked to one. Keep the _content_ neutral — personas, process, acceptance, the MCP
@@ -138,7 +138,31 @@ isolate provider coupling to a thin adapter/binding layer. Same "domain before t
 the agent's meaning is the stable core, the provider binding is transport. This repo _is_ the neutral
 core; Claude Code is the one concrete binding today.
 
-→ dotfiles ADR-0039 (this repo's extraction as a submodule).
+**Sequencing — one binding until a second is real (decided 2026-08-26, agents#76).** Build against
+Claude Code alone, record couplings in the ledger below as they surface, extract the binding layer
+only when a second provider actually arrives — the wrong-abstraction guard: an adapter designed
+against one concrete case abstracts the wrong things.
+
+**The seam convention.** In a definition, frontmatter (`tools`, `model`, effort, `mcpServers`,
+`hooks`) is the provider binding; the markdown body is the neutral core — a body never names a
+harness mechanism. Binds every definition at authoring (#66/#67 were the first).
+
+**The ladder is the seam's map.** ADR-0003's rungs 1–3 (substrate-native, third-party tooling, own
+code) are model-independent by construction; rung 4 (agent hooks) and rung 6 (prose) are the
+harness-coupled rungs. Shift-left buys portability, not just drift-immunity.
+
+**Coupling ledger** — grows as couplings surface, never speculatively:
+
+- Coupled to Claude Code: `PreToolUse` and kin (frontmatter `hooks`), skills discovery, frontmatter
+  `mcpServers` quirks (dotfiles#542), `model`/effort fields, output styles, rules-tree loading.
+- Portable by construction: MCP memory (ADR-0046), substrate mechanics (GitHub), rungs 1–3, body
+  prose content.
+
+**A swap is never just config.** Prose rules are calibrated to a model's observed failure modes, so
+swapping providers means rebind _and_ re-tune against measured failure classes — dotfiles#545's
+telemetry is the swap acceptance harness.
+
+→ dotfiles ADR-0039 (this repo's extraction as a submodule); agents#76 (sequencing decision).
 
 ## The role↔repo seam — agents discover conventions, never encode them — [Decided]
 
