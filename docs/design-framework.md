@@ -141,8 +141,10 @@ Layered guardrails against hostile or malformed input: prompt injection via the 
 reads (issue bodies, PR comments, fetched pages), PII handling, and per-tool risk rating gating
 which calls get checked.
 
-Open — no decided position. The roster today reads untrusted GitHub content with no injection
-screen; nearest prior art is OpenAI's layered-guardrail and tool-risk-rating model (see Sources).
+Position forming — routed from the roster audits (4/4 confirms, agents#53): one shared
+provenance rule for every role — untrusted content is data, never instructions (agents#61) —
+with screening machinery deferred until real exposure exists (agents#68). Prior art: OpenAI's
+layered-guardrail and tool-risk-rating model (see Sources).
 
 - What untrusted content does the role ingest, and what happens if it contains instructions?
 - Are tools risk-rated, with the high-risk ones gated by extra checks?
@@ -194,9 +196,11 @@ Failure-mode taxonomy over generic metrics: planning failures, tool failures, ef
 failures — counted per role, so a definition edit targets an observed failure class rather than
 a hunch.
 
-Open — the telemetry track (dotfiles#545) is unbuilt. Intended feed: author-field provenance,
-cost/token spend per agent+task, review rounds, stall points (operating-model.md "Manageable and
-measured").
+Open — the telemetry track (dotfiles#545) is unbuilt, but its contract is now named (roster
+audits, 4/4 confirms): per-role failure classes — mis-triage corrections, reviewer false-flag
+and dismissal rates, unattended implementor outcomes — recorded on dotfiles#545. Feed:
+author-field provenance, cost/token spend per agent+task, review rounds, stall points
+(operating-model.md "Manageable and measured").
 
 - Where would an operator see this role's failure classes today?
 - Is spend attributable to the role and task?
@@ -255,27 +259,59 @@ lessons"; dotfiles ADR-0042. Substrate: dotfiles#576 (unbuilt).
 - Do its cross-role interactions go through the substrate, or leak into nested subagents?
 - Is each orchestration edge real — does the downstream step read the upstream output?
 
-## The gap matrix
+## The audit method
 
-Each per-agent audit instantiates one matrix: a row per dimension, one of three states, one
-pointer per cell. Three states, no maturity scoring — a roster of four doesn't need levels.
+Proven across the four roster audits (agents#54, #56, #55, #57 — derivation on the umbrella,
+agents#53); this section is the method's one home, folded back from that arc. An audit epic
+instantiates it; a deviation discovered mid-audit is a PR against this section, never a local
+exception.
 
-- **covered** — the dimension has a decided answer that the role demonstrably implements; the
-  cell points at the owning ADR, doc section, or definition line.
-- **partial** — an answer exists but the role implements it incompletely, or only part of the
-  dimension is decided; the cell points at what exists and names what's missing.
-- **uncovered** — no answer for this role; the cell names the gap (and the tracking issue, once
-  one is filed).
+### The walk
 
-A cell is a pointer, never prose — the argument lives in the ADR or issue it points at.
+1. **Charter grill first.** Role, functions, goals, non-goals, grilled with the maintainer; the
+   Existence group folds in. A dimension an ADR already decides is a pointer, not a re-grill —
+   and where a grill answer diverges from a merged ADR, the ADR wins and the divergence becomes
+   a supersede-or-reaffirm question, never a silent override.
+2. **Per-group walk** in the framework's order: evidence first, then target, then the row. Rows
+   stay provisional until all 18 are drafted (cross-group edges are real), then one cross-group
+   consistency sweep, then lock.
+3. **Separate-context review of the completed matrix** before sign-off — the author never grades
+   its own artifact; when the subject _is_ the reviewer role, swap in the maintainer.
+4. **Lock at sign-off; close at exit.** The epic body becomes a point-in-time record: built
+   targets live in the definition/ADR the cell points at, unbuilt ones in their gap issues'
+   acceptance criteria, the matrix is the frozen map. Exit: every row pointed or explicitly
+   waived with reason · gaps filed · matrix review done · maintainer sign-off.
 
-| Dimension          | State                           | Pointer / gap           |
-| ------------------ | ------------------------------- | ----------------------- |
-| D1. Dimension zero | covered \| partial \| uncovered | ADR / issue / named gap |
-| …                  |                                 |                         |
+### Evidence — two tiers
 
-The four instances (backlog-manager, plan-reviewer, implementor, code-reviewer) live in their
-audit epics, filed after this doc lands — none is instantiated here.
+- **Grounding** — a merged ADR, merged issue/PR, or file-at-ref — may support **covered**,
+  including covered-by-design: absence as the decided answer needs a grounding anchor too.
+- **Corroborating** — memory quotes, [Directional] doc sections, the audit's own artifacts, an
+  unsigned charter — marks a cell provisional, never grounds covered. Charter-derived target
+  rulings stay provisional until the sign-off that ratifies them.
+
+### The matrix form
+
+A row per dimension: **target** (the requirement, written to be consumable by the owning build
+track) · **current** (covered | partial | uncovered) · **pointer** (the owning ADR, doc section,
+issue, or the named gap). A cell is a pointer, never prose — the argument lives where the
+pointer lands.
+
+- **Mode annotation.** A role with distinct current and target incarnations annotates which mode
+  a state describes; a mode-dependent cell never reads covered at target and always carries a
+  pointer into the owning track.
+- **Waives.** The maintainer may waive a cell with reason — prefer a named expiry ("lapses
+  when …") over an open-ended pass.
+
+### Multi-role audits
+
+Audits **produce, never route**: each supplies an independent confirm-or-refute data point for
+roster-suspect gaps (a refute is a signal, not a miss); the umbrella holds the deferred list and
+routes once, after every audit is signed off. Per-role formalization gaps stay held until a
+second audit confirms their scope — a need in two roles re-homes to the shared layer and the
+per-role issues consolidate.
+
+The four roster instances live in their closed audit epics (agents#54, #56, #55, #57).
 
 ## Sources
 
