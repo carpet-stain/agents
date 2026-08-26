@@ -2,12 +2,14 @@
 name: audit-rules
 description: >-
   Audits the global Claude Code agent-config rules tree (~/.claude/rules) for
-  contradictions and topic/length sprawl, and checks AGENTS.md/README.md/docs for content
-  substantially duplicated across them, reporting proposed fixes without editing anything.
-  Use when asked to audit, review, or check the rules tree for contradictions, conflicting
-  directives, files that have grown too long or cover more than one topic, or repo docs
-  that restate the same content in more than one place. Read-only — never invoke this to
-  apply a fix, only to find issues.
+  contradictions and topic/length sprawl, checks AGENTS.md/README.md/docs for content
+  substantially duplicated across them, and checks agent definitions for encoded repo
+  facts a role should discover at runtime, reporting proposed fixes without editing
+  anything. Use when asked to audit, review, or check the rules tree for contradictions,
+  conflicting directives, files that have grown too long or cover more than one topic,
+  repo docs that restate the same content in more than one place, or agent definitions
+  that hardcode a repo's conventions. Read-only — never invoke this to apply a fix, only
+  to find issues.
 argument-hint: "[path]"
 allowed-tools: Read, Glob, Grep
 disallowed-tools: Write, Edit
@@ -18,14 +20,18 @@ disallowed-tools: Write, Edit
 Read-only audit of the global agent-config rules tree for the two maintenance issues the
 removal test cares about: contradictions and sprawl. Also checks this repo's own docs
 (AGENTS.md/README.md/docs) for content replicated across them — a doc↔doc instance of the same
-single-source-of-truth problem, and a named cause of sprawl. Report findings and proposed
+single-source-of-truth problem, and a named cause of sprawl — and agent definitions for
+encoded repo facts (the role↔repo seam's drift detector). Report findings and proposed
 fixes — never edit anything yourself. `disallowed-tools` already blocks Write/Edit
 structurally; treat that as a guarantee, not just a reminder.
 
 ## Scope
 
-Read target: `~/.claude/rules/**/*.md`. Never hardcode a specific repo's path (e.g. a
-dotfiles checkout) — this must work from any repo where the rules are deployed.
+Read target: `~/.claude/rules/**/*.md`, plus the agent definitions where they're found —
+`~/.claude/agents/**/*.md` when deployed, and the current repo's `agents/*.md` when present
+(read each definition once; if both locations resolve to the same content, one read suffices).
+Never hardcode a specific repo's path (e.g. a dotfiles checkout) — this must work from any repo
+where the rules are deployed.
 
 If invoked with a path argument, scope the audit to that file or directory instead of the whole
 tree (useful mid-edit on a single file). Otherwise audit everything.
@@ -178,6 +184,22 @@ Scope stays to the docs an agent relies on for context — AGENTS.md, README.md,
 content by nature, not drift by accident) and don't extend this check to CHANGELOG.md,
 per-tool READMEs, or code comments.
 
+## Repo-fact-in-definition check
+
+The role↔repo seam's drift detector: repos own their conventions, agent definitions encode only
+the procedure for discovering them. The seam and its one-question test live in the agents repo's
+`docs/operating-model.md` ("The role↔repo seam") — apply that test to each load-bearing line of
+every agent definition in scope; don't re-derive it here. Typical shapes that fail it: a concrete
+branch name, a commit-type or label list, a CI or build command, a directory layout, an issue
+template's field list — any value the definition would act on that the repo, not the role, owns.
+
+A repo fact quoted as an illustrative example inside a discovery instruction ("e.g. `main`") is
+fine; a hardcoded value the agent would act on without discovering it is the target. Same
+quiet-on-noise bar as the Cross-doc replication check: when in doubt, don't report it.
+
+Each finding quotes the line, names the repo fact it encodes, and proposes the discovery-form
+rewrite — same format as the Contradictions check, this is not a new report shape.
+
 ## Report
 
 Emit one structured markdown report directly in this response:
@@ -200,6 +222,10 @@ No edits made — this is a proposal only.
 (ranked, or "None found.")
 
 ## Cross-doc replication
+
+(ranked, or "None found.")
+
+## Repo facts in definitions
 
 (ranked, or "None found.")
 

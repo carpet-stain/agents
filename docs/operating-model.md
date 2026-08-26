@@ -140,6 +140,30 @@ core; Claude Code is the one concrete binding today.
 
 → dotfiles ADR-0039 (this repo's extraction as a submodule).
 
+## The role↔repo seam — agents discover conventions, never encode them — [Decided]
+
+Sibling to the provider↔content seam above: repos own their conventions — lint, CI,
+commit/branch/PR structure, issue templates, code style — enforced repo-side (rulesets and CI,
+agents ADR-0003 rungs 1–2); agents **discover** them at runtime. A definition may encode the
+_procedure for discovering_ a repo's conventions, never the conventions themselves. The
+one-question test: **would this line change if the repo changed? Then it belongs to the repo.**
+
+The practice already lives at the seam's corners — the implementor's Phase 0 discovery
+(`agents/implementor.md`, `skills/orient`), `implement-issue`'s zero-mechanics-restated step, the
+backlog-manager's learn-this-repo-first preamble and issue-template deference, the rules tree's
+LOCAL-WINS headers. This section is their shared name, not a fifth copy.
+
+Repo-side obligation: LOCAL-WINS only works when there's a local to win — each managed repo owes
+its own workflow doc (`rules/tools/git.md`'s COMPOSE step). A repo without one inherits the
+generic baseline as de-facto policy; that inheritance must be a visible choice, recorded in the
+repo, not silence.
+
+Drift detection: the `audit-rules` skill's repo-fact-in-definition check (prose + deterministic
+detection backstop — ADR-0003 rung 6); the design framework asks the same question per
+definition under D17.
+
+→ agents#84 (naming); agents ADR-0003 (enforcement-side placement).
+
 ## Manageable and measured — [Directional]
 
 A manager manages an agent two ways: (a) **editing its shared, versioned definition** — an agent's

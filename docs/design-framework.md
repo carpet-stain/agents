@@ -245,6 +245,7 @@ provider-neutral home (dotfiles ADR-0039, agents ADR-0002).
 - When was the definition last changed, and was the change driven by observed behavior?
 - Does the definition carry provenance for its load-bearing lines (pointers, verified-at notes)?
 - Is anything in it dead — a rule for a situation that no longer exists?
+- Does the definition carry any fact the repo owns? (operating-model.md "The role↔repo seam")
 
 ### D18. Interfaces and orchestration
 
