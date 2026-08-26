@@ -16,6 +16,12 @@ over them, not a second copy — it cites, it doesn't restate. Sections are tagg
 unattended — but nothing they produce has irreversible effect until a human approves and merges.
 Every agent, every mode. This is the fixed point the rest hangs off.
 
+**[Directional] trajectory, decided at charter (agents#55/#57):** the invariant's merge leg is
+substrate policy — the recorded intent is a future flip to auto-merge for spec-verified work,
+gated by a blocking code-reviewer. The flip ships as a ruleset change plus superseding ADRs
+(ADR-0025's advisory clause via agents#67; this invariant's merge leg via an ADR at flip time).
+Until those land, the invariant binds unchanged.
+
 ## Identity, authorship, voice — [Decided]
 
 Each agent is a first-class team identity (`implementor`, `backlog-manager`, `plan-reviewer`, …),
@@ -27,10 +33,14 @@ same honesty as `author = agent`.
 → dotfiles ADR-0035 (named identities), ADR-0037 (read as AI), ADR-0038 (author/ship split),
 dotfiles#544.
 
-## Memory is the moat — per role, not pooled — [Decided]
+## The edge is per-role — memory is the backlog-manager's moat — [Decided]
 
-A team agent beats a dev's private session on exactly one axis a cold session can't replicate:
-**accumulated memory**. A persona without it is a sock puppet. That memory is owned **per role**,
+A team agent beats a dev's private session on a structural edge a cold session can't replicate —
+and the roster audits (agents#53) showed the edge differs per role: **accumulated memory** (the
+backlog-manager), **separate-context independence** (plan-reviewer and code-reviewer — both
+deliberately store-less; the thread is their memory, reaffirmed at charter in agents#56/#57),
+**holding the gate** (the blocking code-reviewer). A persona without _an_ edge is a sock puppet.
+Where a role's memory exists, it is owned **per role**,
 never shared across roles — each agent has a private, role-scoped store with its own credentials, so
 read/write scoping holds by construction with no enforcement layer to build. The shared record
 _across_ roles is the GitHub artifacts themselves: **issue body = destination, thread = journey**,
@@ -40,7 +50,7 @@ information broker), never another role's memory.
 → dotfiles ADR-0033 (pointer-layer content contract), ADR-0036 (MCP knowledge-graph), ADR-0046
 (hosted per-role stores — supersedes ADR-0043's two-tier shared model). Build track: dotfiles#602.
 
-## What earns a shared agent — the structural-edge filter — [Directional]
+## What earns a shared agent — the structural-edge filter — [Decided]
 
 Build a team agent only where it has an edge a private session lacks. A role clears the bar only if
 it passes all three gates: **structural edge** (≥1 of accumulated team memory / structural
@@ -55,7 +65,9 @@ Sharpest case: the **backlog-manager is the cross-stakeholder intake funnel** �
 inbound stream (eng, SRE, product, security, perf, feedback) converges, so it alone can dedupe
 across them and propose one priority. It _proposes_; the human _disposes_.
 
-→ dotfiles#560 (roster + operating model, incubating).
+→ dotfiles ADR-0042 (roster); dotfiles#560 (incubating machinery). Promoted [Directional] →
+[Decided] 2026-08-26: the three-gate filter survived four unmodified applications in the roster
+audits (agents#53).
 
 ## Invocation — invitation is the authorization — [Decided stance / Directional mechanism]
 
@@ -106,6 +118,15 @@ deterministic rule pushed down into tooling is one less thing a probabilistic mo
 Two domains, don't conflate them: **adoption** wins by ergonomics (soft — the plan-review gate is
 discipline, not a wall); **correctness** gets a hard wall (a CI check). Each is right for its kind.
 
+**The enforcement ladder — [Decided].** Rules land on the highest rung worth reaching:
+substrate-native (rulesets, native mechanics, required CI) → third-party tooling (lefthook,
+gitleaks) → own code (`scripts/`) → agent hooks → model judgment in a gate (an agent verdict
+wired to a substrate enforcement point) → prose, last, ideally with a deterministic detection
+backstop. Corollary: the SDLC is invariant when agents join — the process doesn't change, but
+gaps a human covered implicitly must be surfaced and explicitly covered on a rung (or a named
+human gate) before the seat counts as filled. → agents ADR-0003 (the why and the rejected
+alternatives).
+
 → dotfiles ADR-0025 (advisory pipeline: soft plan gate + `pr-code-review`).
 
 ## Provider-agnostic by design — [Directional]
@@ -147,6 +168,17 @@ Constraints carried from external multi-agent practice onto our own tracks:
 - **Orchestration is deterministic — keep it off the LLM.** Sequencing, exit checks, and retry are
   deterministic problems; a model given them drifts and burns tokens. Workflow state lives in GitHub
   labels (`needs-plan-review` → `plan-approved`), not an agent's context.
+- **Review the artifact, not only the plan.** Separate-context review of completed artifacts caught
+  real errors in every roster audit that ran one (agents#54–#57) — the diamond applies to outputs,
+  not just approaches.
+- **Working state is ticket-scoped, public, and dies at completion.** The reviewer's thread, the
+  implementor's PLAN.md, the review dance's PR thread — one pattern, three surfaces. Never private
+  state: reasoning that influences the next round lives where a human can audit it.
+- **Escalate up a ladder, exhausted in order.** Self-resolution → the reviewing agent → the
+  backlog-manager → a human (agents#55). Minimal human escalation is a goal, not an accident.
+- **Check the substrate for the primitive before designing one.** GitHub's native review-request
+  gave the code-reviewer its invitation, re-invitation, verdict vocabulary, and wake state for
+  free — the plan-reviewer must build the same from parts (agents#57 vs agents#64/#65).
 
 ## Decision index
 
