@@ -232,7 +232,9 @@ reviewer.
    the tests prove it at (existing over new, the highest that works), sequencing, risks, and how
    it maps to the acceptance criteria — as an issue comment, so the plan
    lives on the issue (one home) and the reviewer reads it there. This is implementation planning, a
-   step past pure issue-shaping, and it's yours to draft here.
+   step past pure issue-shaping, and it's yours to draft here. What the handoff must hand over —
+   round N>1 included — is the reviewer's contract, not yours: `agents/plan-reviewer.md`'s Inputs
+   section owns it; satisfy it, don't restate it.
 3. **Get an independent critique.** Delegate the plan to the `plan-reviewer` subagent — its fresh,
    isolated context is the whole point: you drafted the plan, so you're not the one to grade it. It
    returns a verdict plus ranked findings. Post the exchange onto the issue as a condensed digest

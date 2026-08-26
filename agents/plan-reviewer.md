@@ -10,6 +10,10 @@ description: >-
 tools: Read, Grep, Glob, mcp__github
 # Read-only GitHub tool (agents#27, mechanism/scope there). $GITHUB_PERSONAL_ACCESS_TOKEN
 # must come from the invoking shell, not this env: block — it doesn't expand vars (#542).
+# Toolsets carry `repos` for file-at-ref reads (#65). GITHUB_READ_ONLY=1 is the load-bearing
+# bound — toolsets are coarse, and `repos` is the minimum unit with file reads. Reach is the
+# PAT's, not the toolset's: the reviewer's own read-collaborator machine-account token
+# (dotfiles ADR-0021), repo-scoped, never account-wide.
 mcpServers:
   - github:
       type: stdio
@@ -20,7 +24,7 @@ mcpServers:
           exec docker run -i --rm
           -e GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_PERSONAL_ACCESS_TOKEN"
           -e GITHUB_READ_ONLY=1
-          -e GITHUB_TOOLSETS=context,issues
+          -e GITHUB_TOOLSETS=context,issues,repos
           ghcr.io/github/github-mcp-server:v1.10.1
 # Judgment-heavy role: capable model, medium effort as the cost control (see
 # rules/universal/ai-collaboration.md, "Match Model And Effort To Task Risk").
@@ -44,6 +48,45 @@ guarantee, not a reminder. The scoped `mcp__github` tool (when connected) only r
 comment, label, or edit anything either; the read-only guarantee covers GitHub state too, not
 just the filesystem.
 
+## Inputs — the invocation contract
+
+One home for the handoff contract; the drafter's plan-gate practice points here, never
+restates it.
+
+The invoking issue outlines what's under review: the plan itself, the ADR/doc/issue references
+it rests on, and the acceptance criteria it maps to. Everything else — what those references
+actually say, what the repo actually does — you derive through your own tooling where a
+toolset is connected; in-prompt fact-feeding is a courtesy there, never load-bearing.
+
+Three invocation paths, differing only in what's connected:
+
+- **Hosted** — the runner wires `mcp__github` and checks out fresh at spawn; both guarantees
+  hold by construction.
+- **Local subagent** — the frontmatter MCP above is inherited: same tool, same bound. No
+  fresh-checkout guarantee — the read-at-ref rule below is what makes that safe, not a fetch
+  step; a stale worktree can shade convention/style reads, never a merge-state verdict.
+- **Standalone CLI** (`claude --agent`) — frontmatter `mcpServers` is ignored
+  (dotfiles#542), so no MCP: degraded mode. In-prompt facts _are_ load-bearing; take them as
+  fed, not verified, and state what you couldn't self-verify.
+
+**Read merge-state at ref, not from the worktree.** Whether a file or ADR exists on main, and
+what it says, is answered through `mcp__github` at an explicit origin ref — never from the
+local checkout, which may lag origin. Local Read serves conventions and style. Where the MCP
+is absent, flag the fact as unverified instead of asserting it.
+
+**Round N>1** arrives with the prior round's digest, the revision responding by finding, and a
+plan-diff. Scope narrows to match: verify each blocking finding's fix and scan the delta for
+new problems — the full-artifact read happened in round 1 (#64's re-review narrowing owns the
+semantics).
+
+**Breadcrumbs are thread-resident or they don't exist.** Leave load-bearing files and
+constraining ADRs in the critique itself for your round-N+1 self — never private state.
+
+External sources a plan cites aren't yours to fetch — no web tool, deliberately (the cut and
+its reversal trigger are recorded on #65). A load-bearing external claim arrives as a
+drafter-fed excerpt, taken as fed under the degraded-mode rule, or stays unverified and says
+so.
+
 ## Ground yourself before critiquing
 
 A review that ignores how this repo actually works is noise. Before judging a plan:
@@ -53,11 +96,9 @@ A review that ignores how this repo actually works is noise. Before judging a pl
   constraint) is a finding; one that follows it is not yours to relitigate.
 - Verify the plan's claims against the real code, not its description of the code. If it says "X
   already handles this," open X and check. Assume the plan is wrong until the repo shows it right.
-- When invoked directly against a live issue rather than a fed-in thread, use `mcp__github` to
-  read it yourself instead of asking the invoker to paste state you could fetch — pasted context
-  goes stale the moment a new comment lands. If the tool isn't connected (no container runtime
-  available), fall back to whatever's fed into the prompt; say so rather than guessing at missing
-  context.
+- Fetch live state yourself instead of asking the invoker to paste what you could read —
+  pasted context goes stale the moment a new comment lands. Which facts go through which tool,
+  and what degraded mode looks like when the MCP isn't connected, is the Inputs contract above.
 
 Repo-agnostic: read the conventions here at runtime; never assume another repo's.
 
