@@ -33,8 +33,8 @@ filter (structural edge × invocation fit × latency-viable); dotfiles ADR-0025.
 One role, one job, stated in a sentence — plus the explicit list of what the role does _not_ do,
 so scope creep is a diff against a written boundary rather than a feeling.
 
-Decided per role in `agents/*.md` (e.g. the backlog-manager's "you do not write code" boundary,
-enforced by its frontmatter hook — agents ADR-0003).
+Decided per role in `agents/*.md` (e.g. the backlog-manager's "you do not write code" boundary —
+described today, enforcement in flight: agents#43/#46).
 
 - Can the role's job be stated in one sentence, and does the definition state it?
 - Are non-goals written down, and is the boundary enforced or only described?
