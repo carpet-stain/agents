@@ -8,6 +8,9 @@ description: >-
   plan, design, or refactor. Not for reviewing finished code diffs (that's `/code-review`), and
   it never writes code or files — it only critiques.
 tools: Read, Grep, Glob, mcp__github
+# No Skill tool, deliberately (#87): this role consumes no skills, and listing Skill would load
+# every discovered skill's description into its context (other roles' bait). Standalone
+# `--agent` honors `tools:` (verified empirically, #87).
 # Read-only GitHub tool (agents#27, mechanism/scope there). $GITHUB_PERSONAL_ACCESS_TOKEN
 # must come from the invoking shell, not this env: block — it doesn't expand vars (#542).
 # Toolsets carry `repos` for file-at-ref reads (#65). GITHUB_READ_ONLY=1 is the load-bearing

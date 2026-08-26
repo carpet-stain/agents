@@ -7,6 +7,9 @@ description: >-
   request; round N+1 is a re-request. Not for plans or pre-implementation artifacts (the
   plan-reviewer's lane), and it never writes code — comments and reviews only.
 tools: Read, Grep, Glob, Bash
+# No Skill tool, deliberately (#87): this role consumes no skills, and listing Skill would load
+# every discovered skill's description into its context (other roles' bait). Standalone
+# `--agent` honors `tools:` (verified empirically, #87).
 # Judgment-heavy adversarial role: the blocking verdict is where being wrong is expensive, so it
 # gets the capable model; medium effort is the cost control (see
 # rules/universal/ai-collaboration.md, "Match Model And Effort To Task Risk").

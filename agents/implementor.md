@@ -8,6 +8,11 @@ description: >-
   implement-issue skill remains the wrapper — the modes coexist. Never redesigns the ticket,
   never edits its own rules.
 tools: Read, Edit, Write, Bash, Grep, Glob
+# No Skill tool, deliberately (#87, wiring decision #44): Skill is all-or-nothing — listing it
+# loads every discovered skill's description into this role's context (other roles' bait). The
+# pack's five phase skills are reached by plain Read of the files the body names — zero context
+# tax until read. Standalone `--agent` honors `tools:`, and the pack files read in both
+# standalone and subagent modes (verified empirically, evidence on #87).
 # Execution under an approved plan is the mechanical tier: Sonnet per dotfiles ADR-0025's model
 # tiering (its amendment moved the implementer tier from Haiku to Sonnet); effort medium — the
 # pack carries the judgment (see rules/universal/ai-collaboration.md, "Match Model And Effort
@@ -37,7 +42,12 @@ Harness integration (the pack is portable; these bind it to this workflow):
 - Consult the matching phase skill at each gate: `orient` (gate 1 / Phase 0), `test-strategy`
   (gate 2 / Phase 1, with its domain variants), `test-list` (gate 3 / Phase 2), `tdd-loop`
   (gate 4 / Phase 3), `refactor-review` (gate 5 / Phases 4–5). Gate numbers are the rules
-  list below; skills carry the pack's zero-indexed phase names — same five stops.
+  list below; skills carry the pack's zero-indexed phase names — same five stops. Consult means
+  read the skill's own `SKILL.md` yourself, resolved in order: Glob `**/skills/<name>/SKILL.md`
+  from the working directory (roster checkout or vendored submodule) — exactly one match wins;
+  zero or several, use `~/.claude/skills/<name>/SKILL.md` (the deployed home; outside the
+  working directory the read may need a grant). Nothing surfaces the pack to you automatically;
+  if neither resolves, record the miss in `PLAN.md` and work from the rules below (#87).
 - The pack is tuned from observed failures, not intuition: run it on real tickets, revise where
   the agent blends phases, weakens assertions, or abuses an exception — and tighten an abused
   exception's trigger rather than deleting it. Pack-feedback flags in final reports feed this

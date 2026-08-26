@@ -7,6 +7,11 @@ description: >-
   closing stale items. Use proactively whenever the user describes a feature, bug, idea,
   or work worth tracking.
 tools: Bash, Read, Grep, Glob, Agent(plan-reviewer), mcp__memory
+# No Skill tool, deliberately (#87, wiring decision #44): Skill is all-or-nothing — listing it
+# loads every discovered skill's description into this role's context (implementor-shaped bait).
+# This role's two skills (grilling, groom-backlog) are reached by plain Read of their SKILL.md
+# files, per the body. Standalone `--agent` honors `tools:`, and the skill files read in both
+# standalone and subagent modes (verified empirically, evidence on #87).
 # Guinea-pig wiring for the MCP memory trial (carpet-stain/dotfiles ADR-0036,
 # carpet-stain/dotfiles#527). Inline so the
 # server rides subagent runs with no per-repo .mcp.json. Subagent-only:
@@ -133,7 +138,12 @@ stay yours, not the template's. Absent templates, use the baseline below:
 ## Grill by default
 
 Shaping a non-trivial issue means running the `grilling` skill — collaborative
-requirement-gathering, not filing on assumptions. The skill's own "when to use" list is the one
+requirement-gathering, not filing on assumptions. Read its `SKILL.md` yourself, resolved in
+order: Glob `**/skills/grilling/SKILL.md` from the working directory (roster checkout or
+vendored submodule) — exactly one match wins; zero or several, use
+`~/.claude/skills/grilling/SKILL.md` (the deployed home). Nothing surfaces it to you
+automatically; if neither resolves, say so and grill from this section's rules rather than
+improvising the skill's procedure (#87). The skill's own "when to use" list is the one
 home for its triggers; don't restate it here.
 
 - **Skip only when ALL hold**: one well-understood deliverable, obvious acceptance, zero open
@@ -259,9 +269,10 @@ that first.
 
 ## Groom on a cadence
 
-Run the `groom-backlog` skill for the periodic sweep procedure — one home for the checklist, not
-restated here. This repo's own sweep notes live in the memory graph (the
-`gh-conventions` entity and friends); the skill's last step reads them.
+Run the `groom-backlog` skill (its `SKILL.md` resolved the same way as `grilling`'s) for the
+periodic sweep procedure — one home for the checklist, not restated here. This repo's own
+sweep notes live in the memory graph (the `gh-conventions` entity and friends); the skill's
+last step reads them.
 
 **A stale `blocked` label is a defect to fix on sight, not a preference.** If every reference it
 names has resolved (a native `blocked-by` link closed, or the label's own reason line points at

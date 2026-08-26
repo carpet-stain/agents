@@ -153,8 +153,9 @@ harness-coupled rungs. Shift-left buys portability, not just drift-immunity.
 
 **Coupling ledger** — grows as couplings surface, never speculatively:
 
-- Coupled to Claude Code: `PreToolUse` and kin (frontmatter `hooks`), skills discovery, frontmatter
-  `mcpServers` quirks (dotfiles#542), `model`/effort fields, output styles, rules-tree loading.
+- Coupled to Claude Code: `PreToolUse` and kin (frontmatter `hooks`), skills discovery, the
+  deployed skills path (`~/.claude/skills`, agents#87), frontmatter `mcpServers` quirks
+  (dotfiles#542), `model`/effort fields, output styles, rules-tree loading.
 - Portable by construction: MCP memory (ADR-0046), substrate mechanics (GitHub), rungs 1–3, body
   prose content.
 
