@@ -14,6 +14,11 @@ description: >-
 A thin wrapper around "go implement the spec." The mechanics of branching, committing, and
 opening PRs live in the repo's own git workflow doc — this skill doesn't restate them.
 
+This is the now-mode of the implementor role. The definition (`agents/implementor.md`) carries
+the full discipline pack — phase gates, PLAN.md, the TDD loop — for sessions run as that agent;
+this skill drives the same handoff from a plain session without the pack. The modes coexist;
+neither supersedes the other.
+
 ## Steps
 
 1. **Resolve the issue.** `gh issue view <N>`. Confirm it's OPEN — a closed issue is a shipped
