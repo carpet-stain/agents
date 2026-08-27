@@ -8,7 +8,12 @@
 > Applies only when this repo builds an application with distinct internal layers — a service, a
 > CLI with real orchestration, a library with a public contract. SKIP for pure config, dotfiles,
 > scripts, or single-purpose tools: wrong context there, not merely unnecessary.
-> Like the universal principles, a repo's DESIGN.md/ADRs _illustrate_ these, never override them.
+> Like the universal principles, a repo's DESIGN.md/ADRs _illustrate_ these, never override them
+> — this tree file is what they illustrate.
+> Repo-side (agents#92): this tree file stays that source-of-record until
+> project-starter-template's app-shaped overlays demonstrably deliver this content — the
+> interregnum rule (agents#90 Phase 3). Only then does PST become canonical, not before. Removal
+> tracked in agents#95.
 
 # Application Architecture
 

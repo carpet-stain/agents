@@ -4,6 +4,10 @@
 > machine-reconciled copy — named source, checked equal, a build product never hand-edited — is
 > legal (ADR-0005).
 > A repo's own docs bind the specifics (where ADRs live, its templates); this is the source.
+> Repo-side (agents#92): this tree file stays that source-of-record until
+> project-starter-template's channel demonstrably delivers this content — the interregnum rule
+> (agents#90 Phase 3). Only then does PST become canonical, not before. Removal tracked in
+> agents#95.
 
 # Documentation
 

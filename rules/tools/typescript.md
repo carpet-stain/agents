@@ -20,6 +20,15 @@ paths:
 > If this repo has its own TypeScript standards doc (e.g. docs/CODING.md), that doc is
 > AUTHORITATIVE: treat this as baseline and prefer the repo's doc on conflict.
 
+> ### CANONICAL-IN-PST
+>
+> Repo-side (agents#92): this tree file stays the source-of-record until project-starter-
+> template's TypeScript overlay
+> ([#96](https://github.com/carpet-stain/project-starter-template/issues/96)) demonstrably
+> delivers this content — the interregnum rule (agents#90 Phase 3). Only then does PST become
+> canonical, not before — and the `paths:` gate above dissolves at the same point, since a
+> TypeScript repo knows it's a TypeScript repo. Removal tracked in agents#95.
+
 > ### COMPOSE — give a repo its own concrete TypeScript doc
 >
 > Trigger: the human asks to scaffold, OR a TypeScript repo lacks a standards doc and one is
