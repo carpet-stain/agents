@@ -187,7 +187,39 @@ Drift detection: the `audit-rules` skill's repo-fact-in-definition check (prose 
 detection backstop — ADR-0003 rung 6); the design framework asks the same question per
 definition under D17.
 
-→ agents#84 (naming); agents ADR-0003 (enforcement-side placement).
+### The residency rubric
+
+The one-question test generalizes to a disposition ladder for any unit of guidance — a rules
+section, a skill, a skill's structural assumption. One preflight overrides the ladder: prose
+restating an exact value a rung-1/2 config (ADR-0003) already enforces is **dead** no matter
+which test its topic would otherwise match — removal names the enforcing config. Then apply
+the tests in order; first hit wins:
+
+1. **Repo-side** — repo-work guidance needed across roles, by humans or agents, on any
+   surface: engineering opinion (practices, testing, style, workflow shape). Guidance only
+   one role ever acts on falls through to test 4 even when it's about repo work — being
+   repo-work-shaped isn't enough; the constituency has to span roles. Canonical in
+   project-starter-template, carried into repos by its machinery, discoverable via each repo's
+   AGENTS.md — the repo channel is the only one that reaches every executor.
+2. **Workstation-ambient** — guidance bound to the workstation itself: its own tooling (a
+   dotfiles-owned alias), or the baseline an uncomposed repo inherits until it has its own doc.
+   The constituency test: name who reads this copy — if every consumer with a stake works on
+   the workstation or receives the content through a repo channel, ambient residency is
+   legitimate, not leftover.
+3. **Agent-side** — conduct: how an agent behaves, not how repo work is done. Name the artifact
+   per surface: persona body for roster-critical conduct — the vendored channel (ADR-0002)
+   carries personas to hosted surfaces but excludes rules from its v1 scope, so a rules-tree
+   pointer a persona relies on does not resolve there; rules tree for workstation-local
+   conduct only. Same span rule as test 1: conduct exactly one role owns falls through to
+   test 4. Cross-role persona conduct is machine-reconciled from one source block in this
+   repo — a rung-2 equality check keeps the copies honest, the vendored channel composes it
+   at render; hand-copies stay forbidden (#93).
+4. **Role-side** — exactly one role consumes it: that role's definition, pack skills, or the
+   `rules/references/` read-on-demand tier (#49).
+5. **Dead** — none of the above.
+
+→ agents#84 (naming); agents ADR-0003 (enforcement-side placement); agents#90 (rubric
+derivation); agents#92 (the disposition matrix ruled under it).
 
 ## Manageable and measured — [Directional]
 
