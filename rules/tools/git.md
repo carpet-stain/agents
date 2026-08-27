@@ -103,19 +103,15 @@ subset. Scope the day-to-day credential (a CLI token, not a full-admin session) 
 commits/PRs need, so an agent driving the host CLI can't touch repo settings or branch protection;
 elevate explicitly only for the one action that needs it. `git cliff --bump` previews the exact
 version/changelog release automation would compute, with zero side effects — reach for it by hand.
-If the repo's changelog resolves PR links via the host's API (below), this preview is
-network-dependent by default; `--offline` (or `GIT_CLIFF_OFFLINE`) skips those lookups when that
-matters.
+If the repo's changelog resolves PR links via the host's API (`rules/references/git-releases.md`),
+this preview is network-dependent by default; `--offline` (or `GIT_CLIFF_OFFLINE`) skips those
+lookups when that matters.
 
-## Releases (if the repo versions releases) — git-cliff
+## Releases
 
-Cut <version-scheme> from Conventional Commits: on a release branch `git cliff --tag <TAG> -o
-CHANGELOG.md`, commit as `chore(release): <TAG>`, PR, rebase-merge, then `git tag -a <TAG> -m <TAG>
-&& git push origin <TAG>`. Publishing notes is host-specific — see the platform file.
-
-Resolve PR/MR changelog links via the host's API at changelog-generation time, not by encoding
-them into the commit message: rebase-merge (or any strategy that preserves the author's SHA)
-means a pre-merge text convention can't survive history rewrites the host itself doesn't do, but
-the host tracks the commit↔PR association server-side regardless of merge strategy, so a
-generation-time lookup is the durable source, not the commit text. Host-specific config lives in
-the platform file.
+Release mechanics (git-cliff ceremony, changelog PR-link resolution) live in
+`rules/references/git-releases.md` — read it at release time, only in a repo that versions
+releases (its own GATE). Resolve the path against the rules tree, not the current repo: the
+roster checkout or vendored copy when working in one, else the deployed
+`~/.claude/rules/references/git-releases.md`. Rare-path content, deliberately outside the
+ambient load path (#49).
