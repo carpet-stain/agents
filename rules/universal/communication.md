@@ -11,6 +11,8 @@
 
 ## Writing Style
 
+<!-- canonical-in-pst (agents#92) begin: repo-side, held pending agents#95's delivery gate -->
+
 Prose in a repo — comments, docs, commit messages, PRs — reads like a person wrote it: terse,
 concrete, plain. Lead with the point; cut filler ("it's worth noting"), hedging, and puffery.
 Prefer plain verbs (is, has, uses) over dressed-up ones (serves as, leverages). Name the specific
@@ -24,6 +26,10 @@ Several clustering in one passage is the strongest signal to rewrite.
 
 Never credit an AI or assistant tool in repo content — commits, PRs, comments, docs; the repo
 reads as the contributor's own work.
+
+<!-- canonical-in-pst end: this block stays the source-of-record until project-starter-template's
+     channel demonstrably delivers it — the interregnum rule (agents#90 Phase 3). Only then does
+     PST become canonical, not before. Removal tracked in agents#95. -->
 
 GitHub-facing output an agent posts as itself — issues, PRs, comments, commit bodies — follows
 this same baseline: an agent reads as what it is, an AI team member differentiated by role

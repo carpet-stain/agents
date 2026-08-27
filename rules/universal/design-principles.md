@@ -10,6 +10,10 @@
 > legal (ADR-0005).
 > A repo's DESIGN.md/ADRs _illustrate_ these, never override them — read them and stay
 > consistent. This is the source; the repo doc is the concrete expression.
+> Repo-side (agents#92): this tree file stays that source-of-record until
+> project-starter-template's channel demonstrably delivers this content — the interregnum rule
+> (agents#90 Phase 3). Only then does PST become canonical, not before. Removal tracked in
+> agents#95.
 
 # Design Principles
 

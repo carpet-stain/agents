@@ -27,6 +27,10 @@
 Repo-specific values (scopes, version scheme, branch names) fill the <placeholders> and live in
 the repo. "PR" means a pull or merge request, whichever your host calls it.
 
+<!-- canonical-in-pst (agents#92) begin: repo-side, held pending agents#95's delivery gate.
+     Spans Commits through Shift-left tooling below; Releases (its own pointer section) follows
+     rules/references/git-releases.md, ruled role-side, out of scope here. -->
+
 ## Commits — Conventional Commits
 
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `type(scope): description`,
@@ -106,6 +110,10 @@ version/changelog release automation would compute, with zero side effects — r
 If the repo's changelog resolves PR links via the host's API (`rules/references/git-releases.md`),
 this preview is network-dependent by default; `--offline` (or `GIT_CLIFF_OFFLINE`) skips those
 lookups when that matters.
+
+<!-- canonical-in-pst end: this block stays the source-of-record until project-starter-template's
+     git-flow template demonstrably delivers it — the interregnum rule (agents#90 Phase 3). Only
+     then does PST become canonical, not before. Removal tracked in agents#95. -->
 
 ## Releases
 

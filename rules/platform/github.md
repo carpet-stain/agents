@@ -17,6 +17,11 @@
 
 Realizes `git.md`'s workflow on GitHub. No placeholders — `git.md` owns everything composable.
 
+<!-- canonical-in-pst (agents#92) begin: repo-side, held pending agents#95's delivery gate.
+     Spans Rebase-merge and branch protection + Local tooling below. Early draft PRs is
+     workstation-ambient (a dotfiles-owned alias) and Releases follows
+     rules/references/github-releases.md (role-side) — both out of scope here. -->
+
 ## Rebase-merge and branch protection
 
 GitHub rebase-merge replays the branch's commits onto the protected branch as-is — it doesn't
@@ -36,6 +41,11 @@ principle. One portable rule when elevation works by dropping env vars: drop eve
 could carry the same token — a repo often aliases `GITHUB_TOKEN` to the same scoped value as
 `GH_TOKEN`, so dropping one alone is a no-op. `act` runs the Actions workflows locally via Docker,
 for testing without pushing.
+
+<!-- canonical-in-pst end: this block stays the source-of-record until project-starter-template's
+     git-flow template (GitHub flavor) demonstrably delivers it — the interregnum rule
+     (agents#90 Phase 3). Only then does PST become canonical, not before. Removal tracked in
+     agents#95. -->
 
 ## Early draft PRs — `git pr` / `git pr --draft`
 

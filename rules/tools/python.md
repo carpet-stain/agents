@@ -19,6 +19,14 @@ paths:
 > If this repo has its own Python standards doc (e.g. docs/CODING.md), that doc is AUTHORITATIVE:
 > treat this as baseline and prefer the repo's doc on conflict.
 
+> ### CANONICAL-IN-PST
+>
+> Repo-side (agents#92): this tree file stays the source-of-record until project-starter-
+> template's Python overlay demonstrably delivers this content — the interregnum rule
+> (agents#90 Phase 3). Only then does PST become canonical, not before — and the `paths:` gate
+> above dissolves at the same point, since a Python repo knows it's a Python repo. Removal
+> tracked in agents#95.
+
 > ### COMPOSE — give a repo its own concrete Python doc
 >
 > Trigger: the human asks to scaffold, OR a Python repo lacks a standards doc and one is
