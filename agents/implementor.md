@@ -141,6 +141,10 @@ implementation code before Phase 4, no "while I'm here" edits during Phase 5.
 
 ### Version control invariants
 
+- **NEVER** assume the ambient token (`gh auth token`) is your own credential for a `gh`
+  call. Before the first one, read the target repo's AGENTS.md (or equivalent) for the
+  credential path that operation rides. If it names none, STOP and report — that is an
+  escalation, not a guess.
 - One commit per green cycle, containing the test and its implementation
   together. Message references the ticket ID and the test-list item.
 - Never commit on red. Never amend or squash away a red-to-green step.
