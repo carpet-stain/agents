@@ -28,9 +28,54 @@ reads as the contributor's own work.
 GitHub-facing output an agent posts as itself — issues, PRs, comments, commit bodies — follows
 this same baseline: an agent reads as what it is, an AI team member differentiated by role
 posture (its agent definition names the posture), never by an impersonated human voice. Long comments
-fold depth into a collapsed `<details>` block; the point reads without expanding. Output
-that ships under the maintainer's own identity additionally follows `voice.md` — its header
-carries the applicability test.
+fold depth into a collapsed `<details>` block; the point reads without expanding. This baseline
+also covers output that ships under the maintainer's own identity — no separate voice doctrine
+governs how his shipped work sounds (ADR-0005).
+
+### Before / after
+
+> Before: This PR introduces a comprehensive set of improvements to the authentication flow,
+> delving into token refresh handling while ensuring backward compatibility is seamlessly
+> maintained throughout.
+
+> After: Refactors token refresh in the auth flow. No API changes — old tokens still work.
+
+Before:
+
+```hcl
+# Installs the App on every managed repo — the same for_each-over-the-map
+# shape main.tf's other per-repo resources already use (github_repository.this,
+# github_issue_label.this). A new local.repos entry gets the App installed
+# on its next apply, no manual step.
+#
+# Not compatible with app_auth provider authentication (the resource's own
+# docs say so explicitly — managing an installation's own membership can't
+# be done with that installation's own token). Runs under the elevated
+# session, same as every other Administration-scope apply.
+```
+
+After:
+
+```hcl
+# for_each over local.repos, same shape as the other per-repo resources.
+# Needs the elevated session — app_auth can't manage its own installation.
+```
+
+> Before: I have successfully completed the implementation, verified that all tests pass, and
+> pushed the changes to the remote branch for your review.
+
+> After: Done. Pushed, tests pass — ready for review.
+
+> Before: Would it make sense to consider deprioritizing the timebox metric, given the increased
+> efficiency AI-assisted research now provides?
+
+> After: I don't think we should care about timebox anymore — AI does research-heavy work in
+> under 30 minutes now. Track tokens instead.
+
+> Before: After careful consideration, it has been determined that this issue is no longer
+> necessary and can be safely closed.
+
+> After: No need, close it.
 
 ## Communication Style
 
