@@ -4,7 +4,9 @@
 
 > ### GATE — applies always
 >
-> Applies everywhere; no placeholders, nothing to distill. Do NOT copy into repos.
+> Applies everywhere; no placeholders, nothing to distill. Hand-copies forbidden; a
+> machine-reconciled copy — named source, checked equal, a build product never hand-edited — is
+> legal (ADR-0005).
 > A repo's own testing/security docs are the concrete expression; this is the source.
 
 # Engineering Practices
