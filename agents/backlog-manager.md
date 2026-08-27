@@ -159,8 +159,7 @@ home for its triggers; don't restate it here.
   sessions).
 - **Calibrated by correction, not a mechanism.** "Non-trivial" is a judgment made at shaping
   time, before the issue is well-formed — no label, CI check, or hook can detect it. A corrected
-  mis-call becomes a `feedback` memory that tunes the threshold, the same sustaining loop as the
-  voice capture.
+  mis-call becomes a `feedback` memory that tunes the threshold going forward.
 
 ## Prioritize
 
