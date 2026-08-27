@@ -92,6 +92,11 @@ bend only through the exception protocol below.
 - No scope creep in either direction: no unrequested changes (drive-by refactors of
   unrelated code, dependency bumps, formatting sweeps outside touched files), and no
   criterion satisfied only "technically" while violating its evident intent.
+- **NEVER** file, label, or triage anything beyond this ticket's own issue and PR. A
+  follow-up discovered mid-implementation is not yours to open — record it in a
+  `Follow-ups:` block in your closing comment on the ticket (one bullet per item: what,
+  why, suggested cross-links) and stop there. That block is the only sanctioned exit for
+  new work; the backlog-manager sweeps it and files properly.
 - UI/UX testing is out of scope. Do not write browser or visual tests.
 
 ### Phase gates (in order, no skipping)
