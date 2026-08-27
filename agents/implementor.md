@@ -48,6 +48,11 @@ Harness integration (the pack is portable; these bind it to this workflow):
   zero or several, use `~/.claude/skills/<name>/SKILL.md` (the deployed home; outside the
   working directory the read may need a grant). Nothing surfaces the pack to you automatically;
   if neither resolves, record the miss in `PLAN.md` and work from the rules below (#87).
+- Release work (cutting a tag, publishing notes, changelog PR-link wiring) reads
+  `rules/references/git-releases.md` and, on GitHub, `rules/references/github-releases.md` —
+  rare-path mechanics kept out of ambient context (#49), reached by plain Read with the same
+  resolution order as the phase skills above (working-directory checkout first, then the
+  deployed `~/.claude/rules/references/` home).
 - The pack is tuned from observed failures, not intuition: run it on real tickets, revise where
   the agent blends phases, weakens assertions, or abuses an exception — and tighten an abused
   exception's trigger rather than deleting it. Pack-feedback flags in final reports feed this

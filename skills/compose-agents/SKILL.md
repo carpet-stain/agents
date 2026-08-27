@@ -64,7 +64,11 @@ only that field, not the rest. Two fields are inferred guesses, not facts — pr
 GATE-select by the detected facts: `git.md` always (its own GATE is a near-tautology); `github.md`
 only if `REMOTE_HOST=github.com`; `go.md` only if `IS_GO_REPO=true`; any
 `platform/private/*.md` present. Read each file's COMPOSE block (or its whole content, for
-`github.md`, which has none of its own — see Step 4).
+`github.md`, which has none of its own — see Step 4). The read-set includes the
+`rules/references/*` files the selected rules point at (`references/git-releases.md` with
+`git.md`; `references/github-releases.md` when `REMOTE_HOST=github.com`) — relocated rare-path
+content is still COMPOSE input, and emitted sections stay full prose: a composed `AGENTS.md`
+never receives a pointer to a `rules/references/` file the consumer repo doesn't have.
 
 ## Step 4 — instantiation engine (Draft mode)
 

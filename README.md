@@ -107,6 +107,15 @@ use Claude Code's native `paths:` frontmatter instead of a prose guard, because 
 crisp per-file signal a glob expresses directly — unlike GitHub-origin or platform-tooling checks,
 which have no path to hook into.
 
+`references/` is the opposite tier: files **no** session loads ambiently. Rare-path mechanics
+(release ceremony, changelog wiring) live there and are reached by an explicit Read from whatever
+names them — a GATE-carrying pointer in the slimmed rule file, or the implementor definition
+(#49). The escape is verified empirically, not designed: a marker file planted in
+`rules/references/` did not appear in a spawned subagent's context while the always-loaded tier
+did (three-way differential probe on #49, 2026-08-27). The mechanism is unpinned — nothing found
+explains why a same-depth directory stays out — so re-probe on harness updates rather than
+assuming the guarantee holds.
+
 This is a **blacklist** (load everything, exclude what doesn't fit), not a whitelist (opt-in per
 repo). Worth it because only a few broad files match most work, so loading them all is a small,
 fixed cost with **zero per-repo wiring**. If many niche files accumulate later, revisit —

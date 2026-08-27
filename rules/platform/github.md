@@ -56,21 +56,12 @@ required-status-check branch protection, not failing (verified empirically again
 branch protection, not assumed from docs), while a workflow-level `if:` that skips the whole run
 is the sharp edge that can hang a required check instead.
 
-## Releases — gh
+## Releases and changelog PR links
 
-Publish notes from the same git-cliff source as `git.md`'s Releases:
-`gh release create <TAG> --notes-file <(git cliff --tag <TAG> --latest --strip all)`.
-
-## Changelog PR links — git-cliff GitHub remote
-
-Realizes `git.md`'s "resolve PR links via the host's API" principle on GitHub: `cliff.toml`'s
-`[git]` section sets `commit_preprocessors` to strip any legacy "(#N)" text instead of linking it,
-and a `[remote.github]` section (`owner`, `repo`) plus a template using `commit.remote.pr_number`
-resolve the link at generation time. Never put a token in `[remote.github]`'s `token` field — pass
-it via the `GITHUB_TOKEN` env var (or `--github-token`) at invocation time instead, same as any
-other secret. `git-cliff` specifically wants `GITHUB_TOKEN`, not `gh`'s `GH_TOKEN` — alias it to
-whatever scoped token this repo's credential setup already provides (`git.md`'s credential-scoping
-principle) rather than introducing a second one. In CI, wire `GITHUB_TOKEN` (the default token, or
-the release credential already in scope) into every workflow step that invokes `git cliff`.
-Unauthenticated GitHub API is 60 req/hr — a token raises that to a workable ceiling for a
-full-history regeneration.
+GitHub release mechanics (`gh release create` from git-cliff, `cliff.toml`'s remote/token
+wiring) live in `rules/references/github-releases.md` — read it when publishing a release or
+wiring changelog PR links, and only in a GitHub-origin repo (this file's GATE applies to it
+too). Resolve the path against the rules tree, not the current repo: the roster checkout or
+vendored copy when working in one, else the deployed
+`~/.claude/rules/references/github-releases.md`. Rare-path content, deliberately outside the
+ambient load path (#49).
