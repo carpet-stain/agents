@@ -5,7 +5,9 @@
 
 > ### GATE — applies always
 >
-> Applies everywhere; no placeholders, nothing to distill. Do NOT copy into repos.
+> Applies everywhere; no placeholders, nothing to distill. Hand-copies forbidden; a
+> machine-reconciled copy — named source, checked equal, a build product never hand-edited — is
+> legal (ADR-0005).
 > A repo's DESIGN.md/ADRs _illustrate_ these, never override them — read them and stay
 > consistent. This is the source; the repo doc is the concrete expression.
 

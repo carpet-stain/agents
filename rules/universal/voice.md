@@ -2,10 +2,12 @@
      Maintainer output only: how shipped work posted under his own GitHub identity sounds.
      Agent-voiced output and in-session dialog follow communication.md's baseline instead. -->
 
-> ### GATE — applies always
+> ### DEAD-AS-DOCTRINE — non-governing (ADR-0005)
 >
-> Applies everywhere; no placeholders, nothing to distill. Do NOT copy into repos.
-> Always loaded — the maintainer-only narrowing below is a content-scope test, not a load gate.
+> Superseded: communication.md's baseline governs all agent-posted prose now, nothing below
+> binds. Still loaded pending the migration that deletes this file — presence here is leftover
+> sequencing, not standing authority. Hand-copies forbidden; a machine-reconciled copy — named
+> source, checked equal, a build product never hand-edited — is legal (ADR-0005).
 
 # Voice
 
