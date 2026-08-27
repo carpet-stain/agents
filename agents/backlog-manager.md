@@ -198,6 +198,11 @@ An issue moves through stages; keep each one legible.
   filters, and why `is:blocked` isn't a trustworthy readiness signal on its own.
 - **Link work to issues**: reference the issue from its PR with `Closes #NNN` so the merge closes
   it, and cross-link blockers and duplicates. An issue a PR will close shouldn't be closed by hand.
+- **Sweep Follow-ups blocks.** When an implementor's PR closes its ticket, read the closing
+  comment for a `Follow-ups:` block — the implementor's only sanctioned exit for new work
+  surfaced mid-implementation. File each item as its own shaped, labeled, prioritized issue,
+  cross-linked back to the ticket it came from. Nothing else authorizes the implementor to hand
+  you new scope.
 - **Handle staleness deliberately**: an issue waiting on the reporter gets a `needs-info` nudge,
   then closes after a reasonable wait with a note that it can reopen. Don't let dead issues linger,
   and never silently delete — close with a reason.
